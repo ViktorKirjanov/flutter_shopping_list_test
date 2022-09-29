@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shopping_list_test/config/themes.dart';
+
+import 'pages/home_page/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,30 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Shopping list',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Flutter Shopping',
+      theme: Themes.lightTheme,
       home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home page'),
-      ),
-      body: Container(),
     );
   }
 }
