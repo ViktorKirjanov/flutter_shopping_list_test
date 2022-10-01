@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shopping_list_test/pages/product_list_page/products_page.dart';
 
 import '../../../config/themes.dart';
-import '../../product_list_page/products_page.dart';
 
 class ShoppingListItem extends StatelessWidget {
   final String title;

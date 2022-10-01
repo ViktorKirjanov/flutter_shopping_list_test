@@ -1,9 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/config/themes.dart';
+import 'package:flutter_shopping_list_test/blocs/simple_bloc_observer.dart';
+import 'package:flutter_shopping_list_test/pages/lists_page/lists_page.dart';
 
-import 'pages/home_page/home_page.dart';
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
 
@@ -15,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Shopping',
       theme: Themes.lightTheme,
-      home: const HomePage(),
+      home: const ListsPage(),
     );
   }
 }
