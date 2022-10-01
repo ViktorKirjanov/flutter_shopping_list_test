@@ -56,7 +56,7 @@ class _NewListPageState extends State<NewListPage> {
               }
               return CupertinoButton(
                 child: const Text('Save'),
-                onPressed: () => _newListBloc.add(AddNewList()),
+                onPressed: () => _newListBloc.add(const AddNewList()),
               );
             },
           ),
