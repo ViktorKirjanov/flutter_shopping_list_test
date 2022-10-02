@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shopping_list_test/pages/product_list_page/products_page.dart';
-
-import '../../../config/themes.dart';
+import 'package:flutter_shopping_list_test/config/themes.dart';
+import 'package:flutter_shopping_list_test/pages/product_list_page/products_list_page.dart';
 
 class ShoppingListItem extends StatelessWidget {
   final String title;
@@ -77,7 +76,7 @@ class ShoppingListItem extends StatelessWidget {
                         Navigator.of(context, rootNavigator: true).push(
                       MaterialPageRoute<bool>(
                         builder: (BuildContext context) =>
-                            const ProductListPage(),
+                            ProductListPage(title: title),
                       ),
                     ),
                   ),
