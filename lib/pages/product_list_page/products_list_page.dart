@@ -2,19 +2,20 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_state.dart';
-import 'package:flutter_shopping_list_test/models/product_model.dart';
-
-import '../../data/products_repository.dart';
-import '../_widgets/loader.dart';
-import '_widgets/list_button.dart';
-import '../_widgets/product_item.dart';
+import 'package:flutter_shopping_list_test/data/products_repository.dart';
+import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
+import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
+import 'package:flutter_shopping_list_test/pages/_widgets/product_item.dart';
+import 'package:flutter_shopping_list_test/pages/product_list_page/_widgets/list_button.dart';
+import 'package:formz/formz.dart';
 
 class ProductListPage extends StatefulWidget {
-  final String title;
+  final ShoppingList list;
 
-  const ProductListPage({super.key, required this.title});
+  const ProductListPage({super.key, required this.list});
 
   @override
   State<ProductListPage> createState() => _ProductListPageState();
@@ -34,7 +35,7 @@ class _ProductListPageState extends State<ProductListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.list.title),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -52,23 +53,37 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   Widget _buildSelectedProducts() {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
-        mainAxisExtent: 100,
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-      ),
-      itemCount: 7,
-      itemBuilder: (BuildContext ctx, index) {
-        return ProductItem(
-          product: const Product(name: 'xxx', image: 'bananas'),
-          onTap: () {
-            log("remove $index");
-          },
-        );
+    return BlocBuilder<ListsBloc, ListsState>(
+      builder: (context, state) {
+        if (state.status == FormzStatus.submissionSuccess) {
+          var list =
+              state.lists.firstWhere((list) => list.id == widget.list.id);
+          return BlocBuilder<ListsBloc, ListsState>(
+            builder: (context, state) {
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
+                  mainAxisExtent: 100,
+                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 4,
+                ),
+                itemCount: list.products.length,
+                itemBuilder: (BuildContext ctx, index) {
+                  return ProductItem(
+                    product: list.products[index],
+                    onTap: () {
+                      log("added/remove $index");
+                    },
+                  );
+                },
+              );
+            },
+          );
+        }
+
+        return Container();
       },
     );
   }
@@ -82,7 +97,10 @@ class _ProductListPageState extends State<ProductListPage> {
         } else if (state.status == ProductsStatus.success) {
           return Column(
               children: state.groups.map((productGroup) {
-            return ListButton(productGroup: productGroup);
+            return ListButton(
+              listId: widget.list.id!,
+              productGroup: productGroup,
+            );
           }).toList());
         } else {
           return Center(

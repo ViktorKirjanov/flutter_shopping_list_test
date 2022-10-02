@@ -27,6 +27,7 @@ void main() {
       Map<String, dynamic> data = {
         'title': 'title',
         'background': 1,
+        'products': []
       };
 
       await fakeFirebaseFirestore

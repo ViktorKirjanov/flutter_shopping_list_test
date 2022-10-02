@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_list_test/config/themes.dart';
+import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_shopping_list_test/pages/product_list_page/products_list_page.dart';
 
 class ShoppingListItem extends StatelessWidget {
-  final String title;
-  final int count;
-  final String background;
+  final ShoppingList list;
 
   const ShoppingListItem({
     super.key,
-    required this.title,
-    required this.count,
-    required this.background,
+    required this.list,
   });
 
   @override
@@ -30,7 +27,7 @@ class ShoppingListItem extends StatelessWidget {
                 child: GridTile(
                   footer: GridTileBar(
                     title: Text(
-                      title,
+                      list.title,
                       style: const TextStyle(
                         color: Themes.white,
                         fontSize: 18.0,
@@ -43,7 +40,7 @@ class ShoppingListItem extends StatelessWidget {
                     ),
                   ),
                   child: Image.asset(
-                    background,
+                    'assets/images/group_${list.background}.jpg',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -58,7 +55,7 @@ class ShoppingListItem extends StatelessWidget {
                     color: Themes.red,
                   ),
                   child: Text(
-                    'Items: $count',
+                    'Items: ${list.products.length}',
                     style: const TextStyle(
                       color: Themes.white,
                       fontWeight: FontWeight.w500,
@@ -76,7 +73,7 @@ class ShoppingListItem extends StatelessWidget {
                         Navigator.of(context, rootNavigator: true).push(
                       MaterialPageRoute<bool>(
                         builder: (BuildContext context) =>
-                            ProductListPage(title: title),
+                            ProductListPage(list: list),
                       ),
                     ),
                   ),

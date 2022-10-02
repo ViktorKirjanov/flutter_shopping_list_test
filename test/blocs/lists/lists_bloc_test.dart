@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
+import 'package:flutter_shopping_list_test/models/product_model.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
@@ -47,7 +48,11 @@ void main() {
       build: buildBloc,
       act: (bloc) async => bloc.add(
         const UpdatedListsEvent([
-          ShoppingList(title: 'title', background: 1, products: ['xxx', 'zzz'])
+          ShoppingList(
+            title: 'title',
+            background: 1,
+            products: [Product(name: 'Bananas', image: 'bananas')],
+          )
         ]),
       ),
       expect: () => [
@@ -56,7 +61,7 @@ void main() {
             ShoppingList(
               title: 'title',
               background: 1,
-              products: ['xxx', 'zzz'],
+              products: [Product(name: 'Bananas', image: 'bananas')],
             )
           ],
           status: FormzStatus.submissionSuccess,

@@ -1,15 +1,21 @@
-import 'dart:developer';
-
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/helpers/enum_helper.dart';
 import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
 import 'package:flutter_shopping_list_test/models/product_group_model.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/product_item.dart';
 
 class ProductsPage extends StatefulWidget {
+  final String listId;
   final ProductGroup productGroup;
 
-  const ProductsPage({super.key, required this.productGroup});
+  const ProductsPage({
+    super.key,
+    required this.listId,
+    required this.productGroup,
+  });
 
   @override
   State<ProductsPage> createState() => _ProductsPageState();
@@ -43,9 +49,50 @@ class _ProductsPageState extends State<ProductsPage> {
             ),
             itemCount: widget.productGroup.products.length,
             itemBuilder: (BuildContext ctx, index) {
-              return ProductItem(
-                product: widget.productGroup.products[index],
-                onTap: () => log("remove $index"),
+              return BlocBuilder<ListsBloc, ListsState>(
+                buildWhen: (previous, current) {
+                  var indexProduct = widget.productGroup.products[index];
+                  var previousList = previous.lists
+                      .firstWhere((list) => list.id == widget.listId);
+                  var currentList = current.lists
+                      .firstWhere((list) => list.id == widget.listId);
+
+                  var inPreviousList = previousList.products
+                          .firstWhereOrNull((p) => p == indexProduct) !=
+                      null;
+                  var inCurrentList = currentList.products
+                          .firstWhereOrNull((p) => p == indexProduct) !=
+                      null;
+
+                  return inPreviousList != inCurrentList;
+                },
+                builder: (context, state) {
+                  var list = state.lists
+                      .firstWhere((list) => list.id == widget.listId);
+
+                  var product = list.products.firstWhereOrNull(
+                    (p) => p == widget.productGroup.products[index],
+                  );
+
+                  return ProductItem(
+                    product: widget.productGroup.products[index],
+                    isSelected: product != null,
+                    onTap: () {
+                      if (product == null) {
+                        BlocProvider.of<ListsBloc>(context).add(AddToListEvent(
+                          widget.listId,
+                          widget.productGroup.products[index],
+                        ));
+                      } else {
+                        BlocProvider.of<ListsBloc>(context)
+                            .add(RemoveFromListEvent(
+                          widget.listId,
+                          widget.productGroup.products[index],
+                        ));
+                      }
+                    },
+                  );
+                },
               );
             },
           ),
