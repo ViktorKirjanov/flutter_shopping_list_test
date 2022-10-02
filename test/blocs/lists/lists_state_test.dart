@@ -1,3 +1,4 @@
+import 'package:flutter_shopping_list_test/models/product_model.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
@@ -82,14 +83,14 @@ void main() {
           const ShoppingList(
             title: 'title',
             background: 1,
-            products: ['xxx', 'zzz'],
+            products: [Product(name: 'Bananas', image: 'bananas')],
           )
         ]),
         const ListsState(lists: [
           ShoppingList(
             title: 'title',
             background: 1,
-            products: ['xxx', 'zzz'],
+            products: [Product(name: 'Bananas', image: 'bananas')],
           )
         ]),
       );

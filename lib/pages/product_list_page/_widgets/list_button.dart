@@ -6,10 +6,12 @@ import 'package:flutter_shopping_list_test/models/product_group_model.dart';
 import 'package:flutter_shopping_list_test/pages/products_page/products_page.dart';
 
 class ListButton extends StatelessWidget {
+  final String listId;
   final ProductGroup productGroup;
 
   const ListButton({
     super.key,
+    required this.listId,
     required this.productGroup,
   });
 
@@ -38,8 +40,10 @@ class ListButton extends StatelessWidget {
         ),
         onPressed: () => Navigator.of(context, rootNavigator: true).push(
           MaterialPageRoute<bool>(
-            builder: (BuildContext context) =>
-                ProductsPage(productGroup: productGroup),
+            builder: (BuildContext context) => ProductsPage(
+              listId: listId,
+              productGroup: productGroup,
+            ),
           ),
         ),
       ),

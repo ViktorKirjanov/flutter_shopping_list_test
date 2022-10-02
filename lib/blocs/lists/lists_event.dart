@@ -19,3 +19,23 @@ class UpdatedListsEvent extends ListsEvent {
   @override
   List<Object> get props => [lists];
 }
+
+class AddToListEvent extends ListsEvent {
+  final String id;
+  final Product product;
+
+  const AddToListEvent(this.id, this.product);
+
+  @override
+  List<Object> get props => [id, product];
+}
+
+class RemoveFromListEvent extends ListsEvent {
+  final String id;
+  final Product product;
+
+  const RemoveFromListEvent(this.id, this.product);
+
+  @override
+  List<Object> get props => [id, product];
+}

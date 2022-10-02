@@ -1,15 +1,23 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/config/themes.dart';
 import 'package:flutter_shopping_list_test/blocs/simple_bloc_observer.dart';
+import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
 import 'package:flutter_shopping_list_test/pages/lists_page/lists_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Bloc.observer = SimpleBlocObserver();
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) =>
+          ListsBloc(ShoppingRepository())..add(const GetListsEvent()),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

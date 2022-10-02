@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
+import 'package:flutter_shopping_list_test/models/product_model.dart';
+import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:formz/formz.dart';
-
-import '../../../data/shopping_repository.dart';
-import '../../../models/shopping_list_model.dart';
 
 part 'lists_event.dart';
 part 'lists_state.dart';
@@ -16,6 +16,8 @@ class ListsBloc extends Bloc<ListsEvent, ListsState> {
   ListsBloc(this._shoppingRepository) : super(const ListsState()) {
     on<GetListsEvent>(_onGetListsEventListener);
     on<UpdatedListsEvent>(_onUpdateListsEvent);
+    on<AddToListEvent>(_onAddToListEvent);
+    on<RemoveFromListEvent>(_onRemoveFromListEvent);
   }
 
   StreamSubscription? _subscription;
@@ -43,6 +45,16 @@ class ListsBloc extends Bloc<ListsEvent, ListsState> {
       status: FormzStatus.submissionSuccess,
       lists: event.lists,
     ));
+  }
+
+  void _onAddToListEvent(AddToListEvent event, Emitter<ListsState> emit) {
+    _shoppingRepository.addToShoppingList(id: event.id, product: event.product);
+  }
+
+  void _onRemoveFromListEvent(
+      RemoveFromListEvent event, Emitter<ListsState> emit) {
+    _shoppingRepository.removeFromShoppingList(
+        id: event.id, product: event.product);
   }
 
   @override

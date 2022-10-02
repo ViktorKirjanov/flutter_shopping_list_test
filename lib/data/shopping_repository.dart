@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_shopping_list_test/models/product_model.dart';
 
 import '../models/shopping_list_model.dart';
 import 'shopping_repository_interface.dart';
@@ -27,5 +28,25 @@ class ShoppingRepository implements ShoppingRepositoryInterface {
   @override
   Future<void> addShoppingList({required ShoppingList shoppingList}) async {
     await _shoppingLists.add(shoppingList.toJson());
+  }
+
+  @override
+  Future<void> addToShoppingList({
+    required String id,
+    required Product product,
+  }) async {
+    await _shoppingLists.doc(id).update({
+      "products": FieldValue.arrayUnion([product.toJson()])
+    }).catchError((error) => throw Exception(error));
+  }
+
+  @override
+  Future<void> removeFromShoppingList({
+    required String id,
+    required Product product,
+  }) async {
+    await _shoppingLists.doc(id).update({
+      'products': FieldValue.arrayRemove([product.toJson()])
+    });
   }
 }

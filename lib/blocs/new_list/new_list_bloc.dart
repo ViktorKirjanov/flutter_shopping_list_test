@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
+import 'package:flutter_shopping_list_test/utils/shopping_list_name.dart';
 import 'package:formz/formz.dart';
-
-import '../../../data/shopping_repository.dart';
-import '../../utils/shopping_list_name.dart';
 
 part 'new_list_event.dart';
 part 'new_list_state.dart';
