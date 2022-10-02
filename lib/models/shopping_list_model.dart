@@ -12,6 +12,7 @@ class ShoppingList extends Equatable {
     required this.products,
   });
 
+  // TODO: factory ShoppingList.fromSnapshot
   static ShoppingList fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     return ShoppingList(

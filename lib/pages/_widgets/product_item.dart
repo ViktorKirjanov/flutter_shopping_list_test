@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../config/themes.dart';
+import '../../models/product_model.dart';
 
 class ProductItem extends StatefulWidget {
-  final String title;
+  final Product product;
   final Function onTap;
 
   const ProductItem({
     super.key,
-    required this.title,
+    required this.product,
     required this.onTap,
   });
 
@@ -69,14 +70,14 @@ class _ProductItemState extends State<ProductItem>
                   SizedBox(
                     height: 60,
                     child: Image.asset(
-                      'assets/products/bananas.png',
+                      'assets/products/${widget.product.image}.png',
                       color: Colors.white,
                       fit: BoxFit.contain,
                     ),
                   ),
                   const SizedBox(height: 4.0),
                   Text(
-                    widget.title,
+                    widget.product.name,
                     style: const TextStyle(
                       color: Themes.white,
                     ),

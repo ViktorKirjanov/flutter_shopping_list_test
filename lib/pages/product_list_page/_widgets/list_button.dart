@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-
-import '../../../config/themes.dart';
-import '../../products_page/products_page.dart';
+import 'package:flutter_shopping_list_test/config/themes.dart';
+import 'package:flutter_shopping_list_test/helpers/enum_helper.dart';
+import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
+import 'package:flutter_shopping_list_test/models/product_group_model.dart';
+import 'package:flutter_shopping_list_test/pages/products_page/products_page.dart';
 
 class ListButton extends StatelessWidget {
-  final String title;
+  final ProductGroup productGroup;
 
   const ListButton({
     super.key,
-    required this.title,
+    required this.productGroup,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 2.0),
+      padding: const EdgeInsets.only(bottom: 2.0),
       height: 50.0,
       width: double.infinity,
       child: TextButton(
@@ -28,7 +30,7 @@ class ListButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title),
+            Text(EnumHelper.enumToString(productGroup.group).toCapitalized()),
             const Icon(
               Icons.keyboard_arrow_right_rounded,
             ),
@@ -36,7 +38,8 @@ class ListButton extends StatelessWidget {
         ),
         onPressed: () => Navigator.of(context, rootNavigator: true).push(
           MaterialPageRoute<bool>(
-            builder: (BuildContext context) => ProductsPage(title: title),
+            builder: (BuildContext context) =>
+                ProductsPage(productGroup: productGroup),
           ),
         ),
       ),
