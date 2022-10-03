@@ -19,7 +19,7 @@ Pages:
 <img src="page_home.jpg" width = 500><br><br>
 - create new shopping list<br>
 <img src="page_add_new.jpg" width = 500><br><br>
-- shopping list (already selected products to buy and product category list)<br>
+- shopping list (already selected products and product category list)<br>
 <img src="page_basket.jpg" width = 500><br><br>
 - products by category (add to shopping list)<br>
 <img src="page_products.jpg" width = 500>
