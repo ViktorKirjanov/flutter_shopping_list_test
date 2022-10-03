@@ -15,7 +15,7 @@ The goal of the application is to make everyday shopping easier by enabling the 
 Since the application uses Firebase snapshot listeners it is possible to use the application simultaneously on several devices and if one of the users adds, updates or deletes something then the second user will immediately see all the changes submitted by the first user.
 
 Pages:
-- main page with shopping list<br>
+- main page with shopping lists<br>
 <img src="page_home.jpg" width = 500><br><br>
 - create new shopping list<br>
 <img src="page_add_new.jpg" width = 500><br><br>
