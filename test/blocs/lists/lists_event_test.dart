@@ -25,16 +25,22 @@ void main() {
       test('supports value equality', () {
         expect(
           const UpdatedListsEvent([
-            ShoppingList(
-                title: 'title',
-                background: 1,
-                products: [Product(name: 'Bananas', image: 'bananas')])
+            ShoppingList(title: 'title', background: 1, products: [
+              Product(
+                name: 'Bananas',
+                image: 'bananas',
+                isSelected: true,
+              )
+            ])
           ]),
           equals(const UpdatedListsEvent([
-            ShoppingList(
-                title: 'title',
-                background: 1,
-                products: [Product(name: 'Bananas', image: 'bananas')])
+            ShoppingList(title: 'title', background: 1, products: [
+              Product(
+                name: 'Bananas',
+                image: 'bananas',
+                isSelected: true,
+              )
+            ])
           ])),
         );
       });
@@ -42,17 +48,23 @@ void main() {
       test('props are correct', () {
         expect(
           const UpdatedListsEvent([
-            ShoppingList(
-                title: 'title',
-                background: 1,
-                products: [Product(name: 'Bananas', image: 'bananas')])
+            ShoppingList(title: 'title', background: 1, products: [
+              Product(
+                name: 'Bananas',
+                image: 'bananas',
+                isSelected: true,
+              )
+            ])
           ]).props,
           equals(<Object?>[
             const [
-              ShoppingList(
-                  title: 'title',
-                  background: 1,
-                  products: [Product(name: 'Bananas', image: 'bananas')])
+              ShoppingList(title: 'title', background: 1, products: [
+                Product(
+                  name: 'Bananas',
+                  image: 'bananas',
+                  isSelected: true,
+                )
+              ])
             ],
           ]),
         );
@@ -64,12 +76,20 @@ void main() {
         expect(
           const AddToListEvent(
             "listId",
-            Product(name: 'Bananas', image: 'bananas'),
+            Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
           ),
           equals(
             const AddToListEvent(
               "listId",
-              Product(name: 'Bananas', image: 'bananas'),
+              Product(
+                name: 'Bananas',
+                image: 'bananas',
+                isSelected: true,
+              ),
             ),
           ),
         );
@@ -79,11 +99,19 @@ void main() {
         expect(
           const AddToListEvent(
             "listId",
-            Product(name: 'Bananas', image: 'bananas'),
+            Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
           ).props,
           equals(<Object?>[
             "listId",
-            const Product(name: 'Bananas', image: 'bananas'),
+            const Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
           ]),
         );
       });
@@ -94,12 +122,20 @@ void main() {
         expect(
           const RemoveFromListEvent(
             "listId",
-            Product(name: 'Bananas', image: 'bananas'),
+            Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
           ),
           equals(
             const RemoveFromListEvent(
               "listId",
-              Product(name: 'Bananas', image: 'bananas'),
+              Product(
+                name: 'Bananas',
+                image: 'bananas',
+                isSelected: true,
+              ),
             ),
           ),
         );
@@ -109,11 +145,83 @@ void main() {
         expect(
           const RemoveFromListEvent(
             "listId",
-            Product(name: 'Bananas', image: 'bananas'),
+            Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
           ).props,
           equals(<Object?>[
             "listId",
-            const Product(name: 'Bananas', image: 'bananas'),
+            const Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
+          ]),
+        );
+      });
+    });
+
+    group('ClearProductListEvent', () {
+      test('supports value equality', () {
+        expect(
+          const ClearProductListEvent("listId"),
+          equals(const ClearProductListEvent("listId")),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          const ClearProductListEvent(
+            "listId",
+          ).props,
+          equals(<Object?>["listId"]),
+        );
+      });
+    });
+
+    group('UpdateProductListEvent', () {
+      test('supports value equality', () {
+        expect(
+          const UpdateProductListEvent(
+            "listId",
+            Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
+          ),
+          equals(
+            const UpdateProductListEvent(
+              "listId",
+              Product(
+                name: 'Bananas',
+                image: 'bananas',
+                isSelected: true,
+              ),
+            ),
+          ),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          const UpdateProductListEvent(
+            "listId",
+            Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
+          ).props,
+          equals(<Object?>[
+            "listId",
+            const Product(
+              name: 'Bananas',
+              image: 'bananas',
+              isSelected: true,
+            ),
           ]),
         );
       });

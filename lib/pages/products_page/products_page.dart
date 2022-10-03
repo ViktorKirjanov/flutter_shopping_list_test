@@ -57,11 +57,11 @@ class _ProductsPageState extends State<ProductsPage> {
                   var currentList = current.lists
                       .firstWhere((list) => list.id == widget.listId);
 
-                  var inPreviousList = previousList.products
-                          .firstWhereOrNull((p) => p == indexProduct) !=
+                  var inPreviousList = previousList.products.firstWhereOrNull(
+                          (p) => p.name == indexProduct.name) !=
                       null;
-                  var inCurrentList = currentList.products
-                          .firstWhereOrNull((p) => p == indexProduct) !=
+                  var inCurrentList = currentList.products.firstWhereOrNull(
+                          (p) => p.name == indexProduct.name) !=
                       null;
 
                   return inPreviousList != inCurrentList;
@@ -71,12 +71,13 @@ class _ProductsPageState extends State<ProductsPage> {
                       .firstWhere((list) => list.id == widget.listId);
 
                   var product = list.products.firstWhereOrNull(
-                    (p) => p == widget.productGroup.products[index],
+                    (p) => p.name == widget.productGroup.products[index].name,
                   );
 
                   return ProductItem(
                     product: widget.productGroup.products[index],
                     isSelected: product != null,
+                    isCompleted: product != null ? product.isSelected : false,
                     onTap: () {
                       if (product == null) {
                         BlocProvider.of<ListsBloc>(context).add(AddToListEvent(
