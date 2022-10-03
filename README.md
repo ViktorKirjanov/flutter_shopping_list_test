@@ -40,7 +40,8 @@ Pages:
 
 
 # CI tool 
-[link](https://github.com/ViktorKirjanov/flutter_shopping_list_test/blob/main/.github/workflows/ci.yml)
+- [code](https://github.com/ViktorKirjanov/flutter_shopping_list_test/blob/main/.github/workflows/ci.yml)
+- [workflows](https://github.com/ViktorKirjanov/flutter_shopping_list_test/actions)
 
 # Compile and run the application
 The command compiles to debug mode:
