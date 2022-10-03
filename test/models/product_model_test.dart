@@ -10,10 +10,12 @@ void main() {
         const Product(
           name: 'Bananas',
           image: 'bananas',
+          isSelected: true,
         ),
         const Product(
           name: 'Bananas',
           image: 'bananas',
+          isSelected: true,
         ),
       );
     });
@@ -25,6 +27,7 @@ void main() {
       Map<String, dynamic> data = {
         'name': 'Bananas',
         'image': 'bananas',
+        'isSelected': true,
       };
 
       await fakeFirebaseFirestore
@@ -43,6 +46,7 @@ void main() {
         const Product(
           name: 'Bananas',
           image: 'bananas',
+          isSelected: true,
         ),
       );
     });
@@ -56,6 +60,7 @@ void main() {
         const Product(
           name: 'Bananas',
           image: 'bananas',
+          isSelected: false,
         ),
       );
     });
@@ -65,12 +70,33 @@ void main() {
         const Product(
           name: 'Bananas',
           image: 'bananas',
+          isSelected: true,
         ).toJson(),
         {
           'name': 'Bananas',
           'image': 'bananas',
+          'isSelected': true,
         },
       );
     });
+  });
+
+  test('returns updated object', () {
+    expect(
+      const Product(
+        name: 'Bananas',
+        image: 'bananas',
+        isSelected: true,
+      ).copyWith(
+        name: 'Apples',
+        image: 'apples',
+        isSelected: false,
+      ),
+      const Product(
+        name: 'Apples',
+        image: 'apples',
+        isSelected: false,
+      ),
+    );
   });
 }

@@ -83,14 +83,26 @@ void main() {
           const ShoppingList(
             title: 'title',
             background: 1,
-            products: [Product(name: 'Bananas', image: 'bananas')],
+            products: [
+              Product(
+                name: 'Bananas',
+                image: 'bananas',
+                isSelected: true,
+              )
+            ],
           )
         ]),
         const ListsState(lists: [
           ShoppingList(
             title: 'title',
             background: 1,
-            products: [Product(name: 'Bananas', image: 'bananas')],
+            products: [
+              Product(
+                name: 'Bananas',
+                image: 'bananas',
+                isSelected: true,
+              )
+            ],
           )
         ]),
       );

@@ -47,6 +47,23 @@ class ShoppingRepository implements ShoppingRepositoryInterface {
   }) async {
     await _shoppingLists.doc(id).update({
       'products': FieldValue.arrayRemove([product.toJson()])
-    });
+    }).catchError((error) => throw Exception(error));
+  }
+
+  @override
+  Future<void> clearShoppingList({required String id}) async {
+    await _shoppingLists
+        .doc(id)
+        .update({'products': []}).catchError((error) => throw Exception(error));
+  }
+
+  @override
+  Future<void> updateShoppingList({
+    required String id,
+    required List<Product> products,
+  }) async {
+    await _shoppingLists.doc(id).update({
+      'products': products.map((p) => p.toJson()).toList()
+    }).catchError((error) => throw Exception(error));
   }
 }

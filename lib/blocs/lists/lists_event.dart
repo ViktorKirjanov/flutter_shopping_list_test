@@ -39,3 +39,25 @@ class RemoveFromListEvent extends ListsEvent {
   @override
   List<Object> get props => [id, product];
 }
+
+class ClearProductListEvent extends ListsEvent {
+  final String id;
+
+  const ClearProductListEvent(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
+
+class UpdateProductListEvent extends ListsEvent {
+  final String listId;
+  final Product product;
+
+  const UpdateProductListEvent(
+    this.listId,
+    this.product,
+  );
+
+  @override
+  List<Object> get props => [listId, product];
+}

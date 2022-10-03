@@ -13,6 +13,18 @@ void main() {
   group('ListsBloc', () {
     late ShoppingRepository shoppingRepository;
 
+    var product = const Product(
+      name: 'Bananas',
+      image: 'bananas',
+      isSelected: true,
+    );
+
+    var shoppingList = ShoppingList(
+      title: 'title',
+      background: 1,
+      products: [product],
+    );
+
     setUp(() {
       shoppingRepository = MockShoppingRepository();
     });
@@ -47,27 +59,105 @@ void main() {
       'on UpdatedListsEvent',
       build: buildBloc,
       act: (bloc) async => bloc.add(
-        const UpdatedListsEvent([
-          ShoppingList(
-            title: 'title',
-            background: 1,
-            products: [Product(name: 'Bananas', image: 'bananas')],
-          )
-        ]),
+        UpdatedListsEvent([shoppingList]),
       ),
       expect: () => [
-        const ListsState(
-          lists: [
-            ShoppingList(
-              title: 'title',
-              background: 1,
-              products: [Product(name: 'Bananas', image: 'bananas')],
-            )
-          ],
+        ListsState(
+          lists: [shoppingList],
           status: FormzStatus.submissionSuccess,
           error: null,
         ),
       ],
     );
+
+    group('on ClearProductListEvent', (() {
+      blocTest<ListsBloc, ListsState>(
+        'success',
+        setUp: () {
+          when(
+            () => shoppingRepository.clearShoppingList(id: 'listId'),
+          ).thenAnswer((_) async => {});
+        },
+        build: buildBloc,
+        act: (bloc) async {
+          bloc.add(const ClearProductListEvent('listId'));
+          await Future.delayed(const Duration(seconds: 1));
+        },
+        expect: () => [],
+      );
+
+      blocTest<ListsBloc, ListsState>(
+        'throw Exception when clearShoppingList',
+        setUp: () {
+          when(
+            () => shoppingRepository.clearShoppingList(id: 'listId'),
+          ).thenThrow(Exception());
+        },
+        seed: () => ListsState(
+          status: FormzStatus.submissionSuccess,
+          lists: [shoppingList],
+        ),
+        build: buildBloc,
+        act: (bloc) async {
+          bloc.add(const ClearProductListEvent('listId'));
+        },
+        expect: () => [
+          ListsState(
+            status: FormzStatus.submissionFailure,
+            lists: [shoppingList],
+            error: 'Something went wrong',
+          )
+        ],
+      );
+    }));
+
+    group('on ClearProductListEvent', (() {
+      blocTest<ListsBloc, ListsState>(
+        'success',
+        setUp: () {
+          when(
+            () => shoppingRepository.updateShoppingList(
+              id: 'listId',
+              products: [product],
+            ),
+          ).thenAnswer((_) async => {});
+        },
+        build: buildBloc,
+        act: (bloc) async {
+          bloc.add(UpdateProductListEvent(
+            'listId',
+            product,
+          ));
+        },
+        expect: () => [],
+      );
+
+      blocTest<ListsBloc, ListsState>(
+        'throw Exception when updateShoppingList',
+        setUp: () {
+          when(
+            () => shoppingRepository.updateShoppingList(
+              id: 'listId',
+              products: [product],
+            ),
+          ).thenThrow(Exception());
+        },
+        seed: () => ListsState(
+          status: FormzStatus.submissionSuccess,
+          lists: [shoppingList],
+        ),
+        build: buildBloc,
+        act: (bloc) async {
+          bloc.add(const ClearProductListEvent('listId'));
+        },
+        expect: () => [
+          ListsState(
+            status: FormzStatus.submissionFailure,
+            lists: [shoppingList],
+            error: 'Something went wrong',
+          )
+        ],
+      );
+    }));
   });
 }

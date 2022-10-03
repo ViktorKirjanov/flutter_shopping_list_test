@@ -14,8 +14,15 @@ abstract class ShoppingRepositoryInterface {
     required Product product,
   });
 
+  Future<void> clearShoppingList({required String id});
+
   Future<void> removeFromShoppingList({
     required String id,
     required Product product,
+  });
+
+  Future<void> updateShoppingList({
+    required String id,
+    required List<Product> products,
   });
 }

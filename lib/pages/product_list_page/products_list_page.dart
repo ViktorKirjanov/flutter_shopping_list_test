@@ -1,12 +1,13 @@
-import 'dart:developer';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_state.dart';
+import 'package:flutter_shopping_list_test/config/themes.dart';
 import 'package:flutter_shopping_list_test/data/products_repository.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
+import 'package:flutter_shopping_list_test/pages/_widgets/lists_error.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/product_item.dart';
 import 'package:flutter_shopping_list_test/pages/product_list_page/_widgets/list_button.dart';
@@ -36,6 +37,16 @@ class _ProductListPageState extends State<ProductListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.list.title),
+        actions: [
+          CupertinoButton(
+            child: const Icon(
+              CupertinoIcons.delete_simple,
+              color: Themes.darkGray,
+            ),
+            onPressed: () => BlocProvider.of<ListsBloc>(context)
+                .add(ClearProductListEvent(widget.list.id!)),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -55,34 +66,48 @@ class _ProductListPageState extends State<ProductListPage> {
   Widget _buildSelectedProducts() {
     return BlocBuilder<ListsBloc, ListsState>(
       builder: (context, state) {
-        if (state.status == FormzStatus.submissionSuccess) {
+        if (state.status == FormzStatus.submissionInProgress) {
+          return const SizedBox(height: 100, child: Center(child: Loader()));
+        } else if (state.status == FormzStatus.submissionSuccess) {
           var list =
               state.lists.firstWhere((list) => list.id == widget.list.id);
-          return BlocBuilder<ListsBloc, ListsState>(
-            builder: (context, state) {
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
-                  mainAxisExtent: 100,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                ),
-                itemCount: list.products.length,
-                itemBuilder: (BuildContext ctx, index) {
-                  return ProductItem(
-                    product: list.products[index],
-                    onTap: () {
-                      log("added/remove $index");
-                    },
-                  );
-                },
-              );
-            },
+          if (list.products.isNotEmpty) {
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
+                mainAxisExtent: 100,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+              ),
+              itemCount: list.products.length,
+              itemBuilder: (BuildContext ctx, index) {
+                return ProductItem(
+                  product: list.products[index],
+                  isSelected: list.products[index].isSelected,
+                  onTap: () {
+                    BlocProvider.of<ListsBloc>(context)
+                        .add(UpdateProductListEvent(
+                      widget.list.id!,
+                      list.products[index],
+                    ));
+                  },
+                );
+              },
+            );
+          } else {
+            return const SizedBox(
+              height: 100,
+              child: Center(child: Text('Shopping basket is empty')),
+            );
+          }
+        } else if (state.status == FormzStatus.submissionFailure) {
+          return SizedBox(
+            height: 100,
+            child: ListsError(error: state.error),
           );
         }
-
         return Container();
       },
     );

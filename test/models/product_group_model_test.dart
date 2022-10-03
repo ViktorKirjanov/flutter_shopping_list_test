@@ -14,6 +14,7 @@ void main() {
             Product(
               name: 'Bananas',
               image: 'bananas',
+              isSelected: true,
             ),
           ],
         ),
@@ -24,6 +25,7 @@ void main() {
             Product(
               name: 'Bananas',
               image: 'bananas',
+              isSelected: true,
             ),
           ],
         ),
@@ -39,6 +41,7 @@ void main() {
             {
               'name': 'Bananas',
               'image': 'bananas',
+              'isSelected': true,
             }
           ]
         }),
@@ -49,6 +52,7 @@ void main() {
             Product(
               name: 'Bananas',
               image: 'bananas',
+              isSelected: true,
             ),
           ],
         ),

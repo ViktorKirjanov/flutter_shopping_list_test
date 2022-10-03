@@ -11,6 +11,7 @@ class Themes {
 
   static const Color red = Color.fromARGB(255, 188, 80, 67);
   static const Color green = Color.fromARGB(255, 46, 133, 115);
+  static const Color yellow = Color.fromARGB(255, 249, 235, 104);
 
   static const borderRadius = BorderRadius.all(Radius.circular(8.0));
   static const contentPadding = EdgeInsets.all(16.0);

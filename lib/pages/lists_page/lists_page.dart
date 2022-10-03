@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shopping_list_test/pages/_widgets/lists_error.dart';
 import 'package:formz/formz.dart';
 
 import '../../blocs/lists/lists_bloc.dart';
@@ -42,14 +43,10 @@ class ListsPage extends StatelessWidget {
               onRefresh: () async => BlocProvider.of<ListsBloc>(context)
                   .add(const GetListsEvent()),
             );
-          } else {
-            return Center(
-              child: Text(
-                state.error ?? 'Oops!',
-                style: Theme.of(context).textTheme.caption,
-              ),
-            );
+          } else if (state.status == FormzStatus.submissionFailure) {
+            return ListsError(error: state.error);
           }
+          return Container();
         },
       ),
     );
