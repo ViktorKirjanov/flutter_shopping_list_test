@@ -9,7 +9,7 @@ import 'package:flutter_shopping_list_test/data/products_repository.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/lists_error.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
-import 'package:flutter_shopping_list_test/pages/_widgets/product_item.dart';
+import 'package:flutter_shopping_list_test/pages/_widgets/product_item/product_item.dart';
 import 'package:flutter_shopping_list_test/pages/product_list_page/_widgets/list_button.dart';
 import 'package:formz/formz.dart';
 

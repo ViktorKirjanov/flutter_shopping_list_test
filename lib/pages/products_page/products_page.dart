@@ -5,7 +5,7 @@ import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/helpers/enum_helper.dart';
 import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
 import 'package:flutter_shopping_list_test/models/product_group_model.dart';
-import 'package:flutter_shopping_list_test/pages/_widgets/product_item.dart';
+import 'package:flutter_shopping_list_test/pages/_widgets/product_item/product_item.dart';
 
 class ProductsPage extends StatefulWidget {
   final String listId;

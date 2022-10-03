@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../config/themes.dart';
-import '../../models/product_model.dart';
+import '../../../config/themes.dart';
+import '../../../models/product_model.dart';
+import 'is_completed.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
@@ -22,8 +23,7 @@ class ProductItem extends StatelessWidget {
     return Container(
       height: 150,
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: isSelected ? Themes.green : Themes.red,
+      decoration: const BoxDecoration(
         borderRadius: Themes.borderRadius,
       ),
       child: Material(
@@ -58,19 +58,7 @@ class ProductItem extends StatelessWidget {
                   ],
                 ),
               ),
-              if (isCompleted)
-                Positioned(
-                  left: 5.0,
-                  top: 5.0,
-                  child: Container(
-                    width: 10.0,
-                    height: 10.0,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Themes.yellow,
-                    ),
-                  ),
-                ),
+              if (isCompleted) const IsCompleted(),
             ],
           ),
           onTap: () => onTap(),

@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shopping_list_test/blocs/new_list/new_list_bloc.dart';
+import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
+import 'package:flutter_shopping_list_test/pages/new_list_page/_widgets/background_item.dart';
+import 'package:flutter_shopping_list_test/utils/shopping_list_name.dart';
 import 'package:formz/formz.dart';
-
-import '../../blocs/new_list/new_list_bloc.dart';
-import '../../data/shopping_repository.dart';
-import '../../utils/shopping_list_name.dart';
-import '_widgets/widgets.dart';
 
 class NewListPage extends StatefulWidget {
   const NewListPage({super.key});
