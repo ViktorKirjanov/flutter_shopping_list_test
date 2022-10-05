@@ -46,7 +46,7 @@ class ListsPage extends StatelessWidget {
           } else if (state.status == FormzStatus.submissionFailure) {
             return ListsError(error: state.error);
           }
-          return Container();
+          return const SizedBox();
         },
       ),
     );

@@ -108,7 +108,7 @@ class _ProductListPageState extends State<ProductListPage> {
             child: ListsError(error: state.error),
           );
         }
-        return Container();
+        return const SizedBox();
       },
     );
   }
