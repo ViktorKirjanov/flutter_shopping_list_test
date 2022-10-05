@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_list_test/config/themes.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
-import 'package:flutter_shopping_list_test/pages/product_list_page/products_list_page.dart';
+import 'package:go_router/go_router.dart';
 
 class ShoppingListItem extends StatelessWidget {
   final ShoppingList list;
@@ -69,13 +69,7 @@ class ShoppingListItem extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     splashColor: Themes.white.withOpacity(0.2),
-                    onTap: () =>
-                        Navigator.of(context, rootNavigator: true).push(
-                      MaterialPageRoute<bool>(
-                        builder: (BuildContext context) =>
-                            ProductListPage(list: list),
-                      ),
-                    ),
+                    onTap: () => context.go('/productListPage', extra: list),
                   ),
                 ),
               ),
