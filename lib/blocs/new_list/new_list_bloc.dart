@@ -25,7 +25,7 @@ class NewListBloc extends Bloc<NewListEvent, NewListState> {
     await Future.delayed(const Duration(seconds: 1));
 
     try {
-      var newList = ShoppingList(
+      final newList = ShoppingList(
         title: state.name.value,
         background: state.background,
         products: const [],

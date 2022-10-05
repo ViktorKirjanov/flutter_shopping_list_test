@@ -19,9 +19,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async {
     emit(state.copyWith(status: ProductsStatus.loading));
     try {
-      var groups = await _productsRepository.getProducts();
+      final groups = await _productsRepository.getProducts();
       groups.sort((a, b) => a.order.compareTo(b.order));
-      for (var element in groups) {
+      for (final element in groups) {
         element.products.sort((a, b) => a.name.compareTo(b.name));
       }
 

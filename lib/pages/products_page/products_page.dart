@@ -51,26 +51,26 @@ class _ProductsPageState extends State<ProductsPage> {
             itemBuilder: (BuildContext ctx, index) {
               return BlocBuilder<ListsBloc, ListsState>(
                 buildWhen: (previous, current) {
-                  var indexProduct = widget.productGroup.products[index];
-                  var previousList = previous.lists
+                  final indexProduct = widget.productGroup.products[index];
+                  final previousList = previous.lists
                       .firstWhere((list) => list.id == widget.listId);
-                  var currentList = current.lists
+                  final currentList = current.lists
                       .firstWhere((list) => list.id == widget.listId);
 
-                  var inPreviousList = previousList.products.firstWhereOrNull(
+                  final inPreviousList = previousList.products.firstWhereOrNull(
                           (p) => p.name == indexProduct.name) !=
                       null;
-                  var inCurrentList = currentList.products.firstWhereOrNull(
+                  final inCurrentList = currentList.products.firstWhereOrNull(
                           (p) => p.name == indexProduct.name) !=
                       null;
 
                   return inPreviousList != inCurrentList;
                 },
                 builder: (context, state) {
-                  var list = state.lists
+                  final list = state.lists
                       .firstWhere((list) => list.id == widget.listId);
 
-                  var product = list.products.firstWhereOrNull(
+                  final product = list.products.firstWhereOrNull(
                     (p) => p.name == widget.productGroup.products[index].name,
                   );
 

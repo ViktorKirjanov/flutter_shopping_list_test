@@ -19,7 +19,7 @@ class ShoppingRepository implements ShoppingRepositoryInterface {
   @override
   Stream<List<ShoppingList>> getShoppingListsStream() {
     return _shoppingLists.snapshots().map((snapshot) {
-      var items =
+      final items =
           snapshot.docs.map((doc) => ShoppingList.fromSnapshot(doc)).toList();
       return items;
     });

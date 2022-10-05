@@ -69,7 +69,7 @@ class _ProductListPageState extends State<ProductListPage> {
         if (state.status == FormzStatus.submissionInProgress) {
           return const SizedBox(height: 100, child: Center(child: Loader()));
         } else if (state.status == FormzStatus.submissionSuccess) {
-          var list =
+          final list =
               state.lists.firstWhere((list) => list.id == widget.list.id);
           if (list.products.isNotEmpty) {
             return GridView.builder(
@@ -108,7 +108,7 @@ class _ProductListPageState extends State<ProductListPage> {
             child: ListsError(error: state.error),
           );
         }
-        return Container();
+        return const SizedBox();
       },
     );
   }

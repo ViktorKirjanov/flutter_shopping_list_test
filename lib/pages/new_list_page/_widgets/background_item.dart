@@ -36,8 +36,7 @@ class BackgroundItem extends StatelessWidget {
             ),
           ),
           if (isSelected)
-            Container(
-              padding: const EdgeInsets.all(3.0),
+            DecoratedBox(
               decoration: BoxDecoration(
                 color: Colors.black38,
                 border: Border.all(
