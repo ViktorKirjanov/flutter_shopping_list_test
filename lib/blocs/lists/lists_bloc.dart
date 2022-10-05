@@ -87,10 +87,10 @@ class ListsBloc extends Bloc<ListsEvent, ListsState> {
     Emitter<ListsState> emit,
   ) async {
     try {
-      var list =
+      final list =
           state.lists.firstWhereOrNull((list) => list.id == event.listId);
       if (list != null) {
-        var index = list.products.indexWhere((p) => p == event.product);
+        final index = list.products.indexWhere((p) => p == event.product);
         if (index != -1) {
           List<Product> newLists = List.from(list.products);
           newLists[index] =
