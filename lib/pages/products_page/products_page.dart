@@ -7,6 +7,13 @@ import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
 import 'package:flutter_shopping_list_test/models/product_group_model.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/product_item/product_item.dart';
 
+class ProductsPageArguments {
+  final String listId;
+  final ProductGroup productGroup;
+
+  ProductsPageArguments(this.listId, this.productGroup);
+}
+
 class ProductsPage extends StatefulWidget {
   final String listId;
   final ProductGroup productGroup;

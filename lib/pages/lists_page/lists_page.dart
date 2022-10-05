@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/lists_error.dart';
+import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
 import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../blocs/lists/lists_bloc.dart';
-import '../_widgets/loader.dart';
-import '../new_list_page/new_list_page.dart';
 import '_widgets/widgets.dart';
 
 class ListsPage extends StatelessWidget {
@@ -29,13 +29,7 @@ class ListsPage extends StatelessWidget {
                   ),
                   SafeArea(
                     child: AddButton(
-                      onTap: () =>
-                          Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute<bool>(
-                          builder: (BuildContext context) =>
-                              const NewListPage(),
-                        ),
-                      ),
+                      onTap: () => context.go('/newListPage'),
                     ),
                   ),
                 ],

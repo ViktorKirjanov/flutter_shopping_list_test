@@ -4,6 +4,7 @@ import 'package:flutter_shopping_list_test/helpers/enum_helper.dart';
 import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
 import 'package:flutter_shopping_list_test/models/product_group_model.dart';
 import 'package:flutter_shopping_list_test/pages/products_page/products_page.dart';
+import 'package:go_router/go_router.dart';
 
 class ListButton extends StatelessWidget {
   final String listId;
@@ -38,13 +39,9 @@ class ListButton extends StatelessWidget {
             ),
           ],
         ),
-        onPressed: () => Navigator.of(context, rootNavigator: true).push(
-          MaterialPageRoute<bool>(
-            builder: (BuildContext context) => ProductsPage(
-              listId: listId,
-              productGroup: productGroup,
-            ),
-          ),
+        onPressed: () => context.go(
+          '/productsPage',
+          extra: ProductsPageArguments(listId, productGroup),
         ),
       ),
     );
