@@ -43,7 +43,8 @@ class _ProductListPageState extends State<ProductListPage> {
               CupertinoIcons.delete_simple,
               color: Themes.darkGray,
             ),
-            onPressed: () => BlocProvider.of<ListsBloc>(context)
+            onPressed: () => context
+                .read<ListsBloc>()
                 .add(ClearProductListEvent(widget.list.id!)),
           ),
         ],

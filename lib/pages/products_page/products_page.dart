@@ -87,16 +87,15 @@ class _ProductsPageState extends State<ProductsPage> {
                     isCompleted: product != null ? product.isSelected : false,
                     onTap: () {
                       if (product == null) {
-                        BlocProvider.of<ListsBloc>(context).add(AddToListEvent(
-                          widget.listId,
-                          widget.productGroup.products[index],
-                        ));
+                        context.read<ListsBloc>().add(AddToListEvent(
+                              widget.listId,
+                              widget.productGroup.products[index],
+                            ));
                       } else {
-                        BlocProvider.of<ListsBloc>(context)
-                            .add(RemoveFromListEvent(
-                          widget.listId,
-                          widget.productGroup.products[index],
-                        ));
+                        context.read<ListsBloc>().add(RemoveFromListEvent(
+                              widget.listId,
+                              widget.productGroup.products[index],
+                            ));
                       }
                     },
                   );

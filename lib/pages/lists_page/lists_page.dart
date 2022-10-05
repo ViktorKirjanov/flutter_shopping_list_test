@@ -34,8 +34,8 @@ class ListsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              onRefresh: () async => BlocProvider.of<ListsBloc>(context)
-                  .add(const GetListsEvent()),
+              onRefresh: () async =>
+                  context.read<ListsBloc>().add(const GetListsEvent()),
             );
           } else if (state.status == FormzStatus.submissionFailure) {
             return ListsError(error: state.error);

@@ -22,10 +22,9 @@ class ListsError extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           TextButton(
-            child: const Text('Refresh'),
-            onPressed: () =>
-                BlocProvider.of<ListsBloc>(context).add(const GetListsEvent()),
-          ),
+              child: const Text('Refresh'),
+              onPressed: () =>
+                  context.read<ListsBloc>().add(const GetListsEvent())),
         ],
       ),
     );
