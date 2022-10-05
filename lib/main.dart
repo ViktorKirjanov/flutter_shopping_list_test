@@ -4,7 +4,7 @@ import 'package:flutter_shopping_list_test/config/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
-import 'package:flutter_shopping_list_test/config/themes.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 import 'package:flutter_shopping_list_test/blocs/simple_bloc_observer.dart';
 import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
 
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
         routerConfig: routes,
-        theme: Themes.lightTheme,
+        theme: CustomTheme.lightTheme,
         title: 'Flutter Shopping',
       );
 }

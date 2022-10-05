@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/new_list/new_list_bloc.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
 import 'package:flutter_shopping_list_test/utils/shopping_list_name.dart';
@@ -41,7 +42,7 @@ class _NewListPageState extends State<NewListPage> {
                   ..showSnackBar(
                     SnackBar(
                       content: Text(state.errorMessage ?? 'Oooops'),
-                      padding: const EdgeInsets.all(25),
+                      padding: const EdgeInsets.all(24.0),
                     ),
                   );
               }
@@ -60,34 +61,38 @@ class _NewListPageState extends State<NewListPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          _buildNameInput(),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16.0),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
-              mainAxisExtent: 100,
-              crossAxisSpacing: 4,
-              mainAxisSpacing: 4,
+      body: Padding(
+        padding: CustomTheme.contentPadding,
+        child: Column(
+          children: [
+            _buildNameInput(),
+            const SizedBox(height: CustomTheme.mainPadding),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: MediaQuery.of(context).size.width /
+                    CustomTheme.newShoppingInRow,
+                mainAxisExtent: CustomTheme.newShoppingHeight,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+              ),
+              itemCount: 4,
+              itemBuilder: (BuildContext ctx, index) {
+                return BlocBuilder<NewListBloc, NewListState>(
+                  bloc: _newListBloc,
+                  builder: (context, state) {
+                    return BackgroundItem(
+                      bacground: 'assets/images/group_$index.jpg',
+                      isSelected: index == state.background,
+                      onTap: () => _newListBloc.add(ChangeImage(index)),
+                    );
+                  },
+                );
+              },
             ),
-            itemCount: 4,
-            itemBuilder: (BuildContext ctx, index) {
-              return BlocBuilder<NewListBloc, NewListState>(
-                bloc: _newListBloc,
-                builder: (context, state) {
-                  return BackgroundItem(
-                    bacground: 'assets/images/group_$index.jpg',
-                    isSelected: index == state.background,
-                    onTap: () => _newListBloc.add(ChangeImage(index)),
-                  );
-                },
-              );
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -110,12 +115,9 @@ class _NewListPageState extends State<NewListPage> {
               break;
           }
         }
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-          child: NameInput(
-            errorText: errorText,
-            onChanged: (val) => _newListBloc.add(ChangeName(val)),
-          ),
+        return NameInput(
+          errorText: errorText,
+          onChanged: (val) => _newListBloc.add(ChangeName(val)),
         );
       },
     );

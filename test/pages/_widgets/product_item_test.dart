@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shopping_list_test/config/themes.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 import 'package:flutter_shopping_list_test/models/product_model.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/product_item/is_completed.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/product_item/product_item.dart';
@@ -32,7 +32,7 @@ void main() {
         expect(find.text('Bananas'), findsOneWidget);
         expect(
             (tester.firstWidget(find.byType(Material).at(1)) as Material).color,
-            Themes.green);
+            CustomTheme.green);
         expect(find.byType(IsCompleted), findsOneWidget);
       },
     );
@@ -62,7 +62,7 @@ void main() {
         expect(find.text('Bananas'), findsOneWidget);
         expect(
             (tester.firstWidget(find.byType(Material).at(1)) as Material).color,
-            Themes.red);
+            CustomTheme.red);
         expect(find.byType(IsCompleted), findsNothing);
       },
     );

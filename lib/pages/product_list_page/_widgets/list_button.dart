@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shopping_list_test/config/themes.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 import 'package:flutter_shopping_list_test/helpers/enum_helper.dart';
 import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
 import 'package:flutter_shopping_list_test/models/product_group_model.dart';
@@ -24,11 +24,9 @@ class ListButton extends StatelessWidget {
       width: double.infinity,
       child: TextButton(
         style: TextButton.styleFrom(
-          foregroundColor: Themes.white,
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.w500,
-          ),
-          backgroundColor: Themes.grey,
+          foregroundColor: CustomTheme.white,
+          textStyle: CustomTheme.textBold,
+          backgroundColor: CustomTheme.grey,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../config/themes.dart';
+import '../../../config/custom_theme.dart';
 
 class BackgroundItem extends StatelessWidget {
   final String bacground;
@@ -17,7 +17,7 @@ class BackgroundItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+      borderRadius: CustomTheme.smallRadius,
       child: Stack(
         children: <Widget>[
           Positioned.fill(
@@ -30,7 +30,7 @@ class BackgroundItem extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                splashColor: Themes.white.withOpacity(0.2),
+                splashColor: CustomTheme.white.withOpacity(0.2),
                 onTap: () => onTap(),
               ),
             ),
@@ -42,21 +42,19 @@ class BackgroundItem extends StatelessWidget {
                 border: Border.all(
                   width: 3.0,
                   strokeAlign: StrokeAlign.inside,
-                  color: Themes.red,
+                  color: CustomTheme.red,
                 ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(8.0),
-                ),
+                borderRadius: CustomTheme.smallRadius,
               ),
               child: Center(
                 child: ClipOval(
                   child: Container(
-                    color: Themes.red,
+                    color: CustomTheme.red,
                     padding: const EdgeInsets.all(4.0),
                     child: const Icon(
                       Icons.check_circle_outline_rounded,
                       size: 36.0,
-                      color: Themes.white,
+                      color: CustomTheme.white,
                     ),
                   ),
                 ),

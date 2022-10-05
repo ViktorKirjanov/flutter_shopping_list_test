@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../config/themes.dart';
+import '../../../config/custom_theme.dart';
 
 class IsCompleted extends StatelessWidget {
   const IsCompleted({super.key});
@@ -15,7 +15,7 @@ class IsCompleted extends StatelessWidget {
         height: 10.0,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          color: Themes.yellow,
+          color: CustomTheme.yellow,
         ),
       ),
     );

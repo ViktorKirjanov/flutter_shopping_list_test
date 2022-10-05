@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../config/themes.dart';
+import '../../../config/custom_theme.dart';
 
 class AddButton extends StatelessWidget {
   final Function onTap;
@@ -11,10 +11,10 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-          foregroundColor: Themes.white,
-          backgroundColor: Themes.darkestGrey,
+          foregroundColor: CustomTheme.white,
+          backgroundColor: CustomTheme.darkestGrey,
           shape: const RoundedRectangleBorder(
-            borderRadius: Themes.borderRadius,
+            borderRadius: CustomTheme.smallRadius,
           ),
           fixedSize: const Size(double.infinity, 50.0)),
       child: Row(
@@ -27,10 +27,7 @@ class AddButton extends StatelessWidget {
           SizedBox(width: 8.0),
           Text(
             'Add new list',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 16.0,
-            ),
+            style: CustomTheme.buttonText,
           )
         ],
       ),

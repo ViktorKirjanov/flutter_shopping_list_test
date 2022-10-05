@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 import 'package:flutter_shopping_list_test/helpers/enum_helper.dart';
 import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
 import 'package:flutter_shopping_list_test/models/product_group_model.dart';
@@ -37,12 +38,13 @@ class ProductsPage extends StatelessWidget {
           child: GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16.0),
+            padding: CustomTheme.contentPadding,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
-              mainAxisExtent: 100,
-              crossAxisSpacing: 4,
-              mainAxisSpacing: 4,
+              maxCrossAxisExtent: MediaQuery.of(context).size.width /
+                  CustomTheme.productItemsInRow,
+              mainAxisExtent: CustomTheme.productItemHeight,
+              crossAxisSpacing: CustomTheme.gridSpacing,
+              mainAxisSpacing: CustomTheme.gridSpacing,
             ),
             itemCount: productGroup.products.length,
             itemBuilder: (BuildContext ctx, index) {
