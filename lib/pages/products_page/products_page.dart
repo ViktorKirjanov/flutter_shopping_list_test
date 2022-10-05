@@ -14,7 +14,7 @@ class ProductsPageArguments {
   ProductsPageArguments(this.listId, this.productGroup);
 }
 
-class ProductsPage extends StatefulWidget {
+class ProductsPage extends StatelessWidget {
   final String listId;
   final ProductGroup productGroup;
 
@@ -25,21 +25,11 @@ class ProductsPage extends StatefulWidget {
   });
 
   @override
-  State<ProductsPage> createState() => _ProductsPageState();
-}
-
-class _ProductsPageState extends State<ProductsPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          EnumHelper.enumToString(widget.productGroup.group).toCapitalized(),
+          EnumHelper.enumToString(productGroup.group).toCapitalized(),
         ),
       ),
       body: SingleChildScrollView(
@@ -54,15 +44,15 @@ class _ProductsPageState extends State<ProductsPage> {
               crossAxisSpacing: 4,
               mainAxisSpacing: 4,
             ),
-            itemCount: widget.productGroup.products.length,
+            itemCount: productGroup.products.length,
             itemBuilder: (BuildContext ctx, index) {
               return BlocBuilder<ListsBloc, ListsState>(
                 buildWhen: (previous, current) {
-                  final indexProduct = widget.productGroup.products[index];
-                  final previousList = previous.lists
-                      .firstWhere((list) => list.id == widget.listId);
-                  final currentList = current.lists
-                      .firstWhere((list) => list.id == widget.listId);
+                  final indexProduct = productGroup.products[index];
+                  final previousList =
+                      previous.lists.firstWhere((list) => list.id == listId);
+                  final currentList =
+                      current.lists.firstWhere((list) => list.id == listId);
 
                   final inPreviousList = previousList.products.firstWhereOrNull(
                           (p) => p.name == indexProduct.name) !=
@@ -74,27 +64,27 @@ class _ProductsPageState extends State<ProductsPage> {
                   return inPreviousList != inCurrentList;
                 },
                 builder: (context, state) {
-                  final list = state.lists
-                      .firstWhere((list) => list.id == widget.listId);
+                  final list =
+                      state.lists.firstWhere((list) => list.id == listId);
 
                   final product = list.products.firstWhereOrNull(
-                    (p) => p.name == widget.productGroup.products[index].name,
+                    (p) => p.name == productGroup.products[index].name,
                   );
 
                   return ProductItem(
-                    product: widget.productGroup.products[index],
+                    product: productGroup.products[index],
                     isSelected: product != null,
                     isCompleted: product != null ? product.isSelected : false,
                     onTap: () {
                       if (product == null) {
                         context.read<ListsBloc>().add(AddToListEvent(
-                              widget.listId,
-                              widget.productGroup.products[index],
+                              listId,
+                              productGroup.products[index],
                             ));
                       } else {
                         context.read<ListsBloc>().add(RemoveFromListEvent(
-                              widget.listId,
-                              widget.productGroup.products[index],
+                              listId,
+                              productGroup.products[index],
                             ));
                       }
                     },
