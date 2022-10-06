@@ -8,11 +8,13 @@ void main() {
     test('supports value comparison', () {
       expect(
         const ShoppingList(
+          id: 'shoppingListId',
           title: 'title',
           background: 1,
           products: [],
         ),
         const ShoppingList(
+          id: 'shoppingListId',
           title: 'title',
           background: 1,
           products: [],
@@ -44,6 +46,7 @@ void main() {
       expect(
         ShoppingList.fromSnapshot(documentSnapshot),
         const ShoppingList(
+          id: 'shoppingListId',
           title: 'title',
           background: 1,
           products: [],
@@ -54,6 +57,7 @@ void main() {
     test('convert to json', () async {
       expect(
         const ShoppingList(
+          id: 'shoppingListId',
           title: 'title',
           background: 1,
           products: [],

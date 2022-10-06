@@ -7,8 +7,8 @@ abstract class NewListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AddNewList extends NewListEvent {
-  const AddNewList();
+class CreateNewList extends NewListEvent {
+  const CreateNewList();
 }
 
 class ChangeImage extends NewListEvent {

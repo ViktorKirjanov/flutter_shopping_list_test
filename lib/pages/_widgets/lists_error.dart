@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 
 class ListsError extends StatelessWidget {
   final String? error;
@@ -20,12 +21,11 @@ class ListsError extends StatelessWidget {
             error ?? 'Oops!',
             style: Theme.of(context).textTheme.caption,
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: CustomTheme.mainPadding),
           TextButton(
-            child: const Text('Refresh'),
-            onPressed: () =>
-                BlocProvider.of<ListsBloc>(context).add(const GetListsEvent()),
-          ),
+              child: const Text('Refresh'),
+              onPressed: () =>
+                  context.read<ListsBloc>().add(const GetListsEvent())),
         ],
       ),
     );

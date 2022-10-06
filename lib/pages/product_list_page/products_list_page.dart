@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_state.dart';
-import 'package:flutter_shopping_list_test/config/themes.dart';
-import 'package:flutter_shopping_list_test/data/products_repository.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
+import 'package:flutter_shopping_list_test/data/firebase_products_repository.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/lists_error.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
@@ -28,7 +28,7 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   void initState() {
     super.initState();
-    _productsBloc = ProductsBloc(ProductsRepository())
+    _productsBloc = ProductsBloc(FirebaseProductsRepository())
       ..add(const GetProductsEvent());
   }
 
@@ -41,20 +41,21 @@ class _ProductListPageState extends State<ProductListPage> {
           CupertinoButton(
             child: const Icon(
               CupertinoIcons.delete_simple,
-              color: Themes.darkGray,
+              color: CustomTheme.darkGray,
             ),
-            onPressed: () => BlocProvider.of<ListsBloc>(context)
-                .add(ClearProductListEvent(widget.list.id!)),
+            onPressed: () => context
+                .read<ListsBloc>()
+                .add(ClearProductListEvent(widget.list.id)),
           ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: CustomTheme.contentPadding,
         child: SafeArea(
           child: Column(
             children: [
               _buildSelectedProducts(),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: CustomTheme.mainPadding),
               _buildGroups(),
             ],
           ),
@@ -67,7 +68,10 @@ class _ProductListPageState extends State<ProductListPage> {
     return BlocBuilder<ListsBloc, ListsState>(
       builder: (context, state) {
         if (state.status == FormzStatus.submissionInProgress) {
-          return const SizedBox(height: 100, child: Center(child: Loader()));
+          return const SizedBox(
+            height: CustomTheme.productItemHeight,
+            child: Center(child: Loader()),
+          );
         } else if (state.status == FormzStatus.submissionSuccess) {
           final list =
               state.lists.firstWhere((list) => list.id == widget.list.id);
@@ -76,10 +80,11 @@ class _ProductListPageState extends State<ProductListPage> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
-                mainAxisExtent: 100,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4,
+                maxCrossAxisExtent: MediaQuery.of(context).size.width /
+                    CustomTheme.productItemsInRow,
+                mainAxisExtent: CustomTheme.productItemHeight,
+                crossAxisSpacing: CustomTheme.gridSpacing,
+                mainAxisSpacing: CustomTheme.gridSpacing,
               ),
               itemCount: list.products.length,
               itemBuilder: (BuildContext ctx, index) {
@@ -89,7 +94,7 @@ class _ProductListPageState extends State<ProductListPage> {
                   onTap: () {
                     BlocProvider.of<ListsBloc>(context)
                         .add(UpdateProductListEvent(
-                      widget.list.id!,
+                      widget.list.id,
                       list.products[index],
                     ));
                   },
@@ -98,13 +103,13 @@ class _ProductListPageState extends State<ProductListPage> {
             );
           } else {
             return const SizedBox(
-              height: 100,
+              height: CustomTheme.productItemHeight,
               child: Center(child: Text('Shopping basket is empty')),
             );
           }
         } else if (state.status == FormzStatus.submissionFailure) {
           return SizedBox(
-            height: 100,
+            height: CustomTheme.productItemHeight,
             child: ListsError(error: state.error),
           );
         }
@@ -123,7 +128,7 @@ class _ProductListPageState extends State<ProductListPage> {
           return Column(
               children: state.groups.map((productGroup) {
             return ListButton(
-              listId: widget.list.id!,
+              listId: widget.list.id,
               productGroup: productGroup,
             );
           }).toList());

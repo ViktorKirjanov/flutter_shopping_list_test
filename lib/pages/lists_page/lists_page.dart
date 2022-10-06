@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/lists_error.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
 import 'package:formz/formz.dart';
@@ -22,20 +23,20 @@ class ListsPage extends StatelessWidget {
           } else if (state.status == FormzStatus.submissionSuccess) {
             return RefreshIndicator(
               child: ListView(
-                padding: const EdgeInsets.all(16.0),
+                padding: CustomTheme.contentPadding,
                 children: [
                   ...state.lists.map(
                     (list) => ShoppingListItem(list: list),
                   ),
                   SafeArea(
                     child: AddButton(
-                      onTap: () => context.go('/newListPage'),
+                      onTap: () => context.push('/newListPage'),
                     ),
                   ),
                 ],
               ),
-              onRefresh: () async => BlocProvider.of<ListsBloc>(context)
-                  .add(const GetListsEvent()),
+              onRefresh: () async =>
+                  context.read<ListsBloc>().add(const GetListsEvent()),
             );
           } else if (state.status == FormzStatus.submissionFailure) {
             return ListsError(error: state.error);

@@ -25,22 +25,32 @@ void main() {
       test('supports value equality', () {
         expect(
           const UpdatedListsEvent([
-            ShoppingList(title: 'title', background: 1, products: [
-              Product(
-                name: 'Bananas',
-                image: 'bananas',
-                isSelected: true,
-              )
-            ])
+            ShoppingList(
+              id: 'shoppingListId',
+              title: 'title',
+              background: 1,
+              products: [
+                Product(
+                  name: 'Bananas',
+                  image: 'bananas',
+                  isSelected: true,
+                )
+              ],
+            )
           ]),
           equals(const UpdatedListsEvent([
-            ShoppingList(title: 'title', background: 1, products: [
-              Product(
-                name: 'Bananas',
-                image: 'bananas',
-                isSelected: true,
-              )
-            ])
+            ShoppingList(
+              id: 'shoppingListId',
+              title: 'title',
+              background: 1,
+              products: [
+                Product(
+                  name: 'Bananas',
+                  image: 'bananas',
+                  isSelected: true,
+                )
+              ],
+            )
           ])),
         );
       });
@@ -48,23 +58,33 @@ void main() {
       test('props are correct', () {
         expect(
           const UpdatedListsEvent([
-            ShoppingList(title: 'title', background: 1, products: [
-              Product(
-                name: 'Bananas',
-                image: 'bananas',
-                isSelected: true,
-              )
-            ])
-          ]).props,
-          equals(<Object?>[
-            const [
-              ShoppingList(title: 'title', background: 1, products: [
+            ShoppingList(
+              id: 'shoppingListId',
+              title: 'title',
+              background: 1,
+              products: [
                 Product(
                   name: 'Bananas',
                   image: 'bananas',
                   isSelected: true,
                 )
-              ])
+              ],
+            )
+          ]).props,
+          equals(<Object?>[
+            const [
+              ShoppingList(
+                id: 'shoppingListId',
+                title: 'title',
+                background: 1,
+                products: [
+                  Product(
+                    name: 'Bananas',
+                    image: 'bananas',
+                    isSelected: true,
+                  )
+                ],
+              )
             ],
           ]),
         );

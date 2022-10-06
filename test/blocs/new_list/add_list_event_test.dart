@@ -6,14 +6,14 @@ void main() {
     group('AddNewList', () {
       test('supports value equality', () {
         expect(
-          const AddNewList(),
-          equals(const AddNewList()),
+          const CreateNewList(),
+          equals(const CreateNewList()),
         );
       });
 
       test('props are correct', () {
         expect(
-          const AddNewList().props,
+          const CreateNewList().props,
           equals(<Object?>[]),
         );
       });

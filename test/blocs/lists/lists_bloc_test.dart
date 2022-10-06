@@ -1,17 +1,18 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
-import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
+import 'package:flutter_shopping_list_test/data/firebase_shopping_repository.dart';
 import 'package:flutter_shopping_list_test/models/product_model.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockShoppingRepository extends Mock implements ShoppingRepository {}
+class MockShoppingRepository extends Mock
+    implements FirebaseShoppingRepository {}
 
 void main() {
   group('ListsBloc', () {
-    late ShoppingRepository shoppingRepository;
+    late FirebaseShoppingRepository shoppingRepository;
 
     var product = const Product(
       name: 'Bananas',
@@ -20,6 +21,7 @@ void main() {
     );
 
     var shoppingList = ShoppingList(
+      id: 'shoppingListId',
       title: 'title',
       background: 1,
       products: [product],
@@ -116,7 +118,7 @@ void main() {
         'success',
         setUp: () {
           when(
-            () => shoppingRepository.updateShoppingList(
+            () => shoppingRepository.updateList(
               id: 'listId',
               products: [product],
             ),
@@ -136,7 +138,7 @@ void main() {
         'throw Exception when updateShoppingList',
         setUp: () {
           when(
-            () => shoppingRepository.updateShoppingList(
+            () => shoppingRepository.updateList(
               id: 'listId',
               products: [product],
             ),

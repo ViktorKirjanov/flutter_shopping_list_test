@@ -2,10 +2,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 import 'package:flutter_shopping_list_test/helpers/enum_helper.dart';
 import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
 import 'package:flutter_shopping_list_test/models/product_group_model.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/product_item/product_item.dart';
+import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductsPageArguments {
   final String listId;
@@ -14,7 +17,7 @@ class ProductsPageArguments {
   ProductsPageArguments(this.listId, this.productGroup);
 }
 
-class ProductsPage extends StatefulWidget {
+class ProductsPage extends StatelessWidget {
   final String listId;
   final ProductGroup productGroup;
 
@@ -25,21 +28,11 @@ class ProductsPage extends StatefulWidget {
   });
 
   @override
-  State<ProductsPage> createState() => _ProductsPageState();
-}
-
-class _ProductsPageState extends State<ProductsPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          EnumHelper.enumToString(widget.productGroup.group).toCapitalized(),
+          EnumHelper.enumToString(productGroup.group).toCapitalized(),
         ),
       ),
       body: SingleChildScrollView(
@@ -47,56 +40,65 @@ class _ProductsPageState extends State<ProductsPage> {
           child: GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16.0),
+            padding: CustomTheme.contentPadding,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
-              mainAxisExtent: 100,
-              crossAxisSpacing: 4,
-              mainAxisSpacing: 4,
+              maxCrossAxisExtent: MediaQuery.of(context).size.width /
+                  CustomTheme.productItemsInRow,
+              mainAxisExtent: CustomTheme.productItemHeight,
+              crossAxisSpacing: CustomTheme.gridSpacing,
+              mainAxisSpacing: CustomTheme.gridSpacing,
             ),
-            itemCount: widget.productGroup.products.length,
+            itemCount: productGroup.products.length,
             itemBuilder: (BuildContext ctx, index) {
-              return BlocBuilder<ListsBloc, ListsState>(
+              return BlocConsumer<ListsBloc, ListsState>(
+                listener: (context, state) {
+                  if (state.status == FormzStatus.submissionFailure) {
+                    context.go('/');
+                  }
+                },
                 buildWhen: (previous, current) {
-                  final indexProduct = widget.productGroup.products[index];
-                  final previousList = previous.lists
-                      .firstWhere((list) => list.id == widget.listId);
-                  final currentList = current.lists
-                      .firstWhere((list) => list.id == widget.listId);
+                  if (current.status == FormzStatus.submissionSuccess) {
+                    final indexProduct = productGroup.products[index];
+                    final previousList =
+                        previous.lists.firstWhere((list) => list.id == listId);
+                    final currentList =
+                        current.lists.firstWhere((list) => list.id == listId);
 
-                  final inPreviousList = previousList.products.firstWhereOrNull(
-                          (p) => p.name == indexProduct.name) !=
-                      null;
-                  final inCurrentList = currentList.products.firstWhereOrNull(
-                          (p) => p.name == indexProduct.name) !=
-                      null;
+                    final inPreviousList = previousList.products
+                            .firstWhereOrNull(
+                                (p) => p.name == indexProduct.name) !=
+                        null;
+                    final inCurrentList = currentList.products.firstWhereOrNull(
+                            (p) => p.name == indexProduct.name) !=
+                        null;
 
-                  return inPreviousList != inCurrentList;
+                    return inPreviousList != inCurrentList;
+                  }
+                  return false;
                 },
                 builder: (context, state) {
-                  final list = state.lists
-                      .firstWhere((list) => list.id == widget.listId);
+                  final list =
+                      state.lists.firstWhere((list) => list.id == listId);
 
                   final product = list.products.firstWhereOrNull(
-                    (p) => p.name == widget.productGroup.products[index].name,
+                    (p) => p.name == productGroup.products[index].name,
                   );
 
                   return ProductItem(
-                    product: widget.productGroup.products[index],
+                    product: productGroup.products[index],
                     isSelected: product != null,
                     isCompleted: product != null ? product.isSelected : false,
                     onTap: () {
                       if (product == null) {
-                        BlocProvider.of<ListsBloc>(context).add(AddToListEvent(
-                          widget.listId,
-                          widget.productGroup.products[index],
-                        ));
+                        context.read<ListsBloc>().add(AddToListEvent(
+                              listId,
+                              productGroup.products[index],
+                            ));
                       } else {
-                        BlocProvider.of<ListsBloc>(context)
-                            .add(RemoveFromListEvent(
-                          widget.listId,
-                          widget.productGroup.products[index],
-                        ));
+                        context.read<ListsBloc>().add(RemoveFromListEvent(
+                              listId,
+                              productGroup.products[index],
+                            ));
                       }
                     },
                   );

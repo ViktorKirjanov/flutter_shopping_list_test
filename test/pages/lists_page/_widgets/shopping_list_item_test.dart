@@ -16,6 +16,7 @@ void main() {
             home: Scaffold(
               body: ShoppingListItem(
                   list: ShoppingList(
+                id: 'shoppingListId',
                 title: 'Party',
                 background: 0,
                 products: [

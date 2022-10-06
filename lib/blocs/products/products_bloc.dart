@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_state.dart';
 
-import '../../data/products_repository.dart';
+import '../../data/firebase_products_repository.dart';
 
 part 'products_event.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final ProductsRepository _productsRepository;
+  final FirebaseProductsRepository _productsRepository;
 
   ProductsBloc(this._productsRepository) : super(const ProductsState()) {
     on<GetProductsEvent>(_onGetProductsEvent);
