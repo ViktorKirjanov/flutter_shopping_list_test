@@ -3,13 +3,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_shopping_list_test/models/product_model.dart';
 
 class ShoppingList extends Equatable {
-  final String? id;
+  final String id;
   final String title;
   final int background;
   final List<Product> products;
 
   const ShoppingList({
-    this.id,
+    required this.id,
     required this.title,
     required this.background,
     required this.products,

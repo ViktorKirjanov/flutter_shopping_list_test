@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/new_list/new_list_bloc.dart';
 import 'package:flutter_shopping_list_test/config/custom_theme.dart';
-import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
+import 'package:flutter_shopping_list_test/data/firebase_shopping_repository.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
 import 'package:flutter_shopping_list_test/utils/shopping_list_name.dart';
 import 'package:formz/formz.dart';
@@ -22,7 +22,7 @@ class _NewListPageState extends State<NewListPage> {
   @override
   void initState() {
     super.initState();
-    _newListBloc = NewListBloc(ShoppingRepository());
+    _newListBloc = NewListBloc(FirebaseShoppingRepository());
   }
 
   @override
@@ -55,7 +55,7 @@ class _NewListPageState extends State<NewListPage> {
                 );
               }
               return SaveButton(
-                onPressed: () => _newListBloc.add(const AddNewList()),
+                onPressed: () => _newListBloc.add(const CreateNewList()),
               );
             },
           ),

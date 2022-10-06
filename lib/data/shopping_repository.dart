@@ -1,69 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_shopping_list_test/models/product_model.dart';
 
 import '../models/shopping_list_model.dart';
-import 'shopping_repository_interface.dart';
 
-class ShoppingRepository implements ShoppingRepositoryInterface {
-  final _shoppingLists = FirebaseFirestore.instance.collection('lists');
+abstract class ShoppingRepository {
+  Future<List<ShoppingList>> getLists();
 
-  @override
-  Future<List<ShoppingList>> getShoppingLists() async {
-    return await _shoppingLists
-        .get()
-        .then((snapshot) =>
-            snapshot.docs.map((doc) => ShoppingList.fromSnapshot(doc)).toList())
-        .catchError((error) => throw Exception(error));
-  }
+  Stream<List<ShoppingList>> getShoppingListsStream();
 
-  @override
-  Stream<List<ShoppingList>> getShoppingListsStream() {
-    return _shoppingLists.snapshots().map((snapshot) {
-      final items =
-          snapshot.docs.map((doc) => ShoppingList.fromSnapshot(doc)).toList();
-      return items;
-    });
-  }
+  Future<void> createList({
+    required String title,
+    required int background,
+  });
 
-  @override
-  Future<void> addShoppingList({required ShoppingList shoppingList}) async {
-    await _shoppingLists.add(shoppingList.toJson());
-  }
-
-  @override
-  Future<void> addToShoppingList({
+  Future<void> addToList({
     required String id,
     required Product product,
-  }) async {
-    await _shoppingLists.doc(id).update({
-      "products": FieldValue.arrayUnion([product.toJson()])
-    }).catchError((error) => throw Exception(error));
-  }
+  });
 
-  @override
-  Future<void> removeFromShoppingList({
+  Future<void> clearShoppingList({required String id});
+
+  Future<void> removeFromList({
     required String id,
     required Product product,
-  }) async {
-    await _shoppingLists.doc(id).update({
-      'products': FieldValue.arrayRemove([product.toJson()])
-    }).catchError((error) => throw Exception(error));
-  }
+  });
 
-  @override
-  Future<void> clearShoppingList({required String id}) async {
-    await _shoppingLists
-        .doc(id)
-        .update({'products': []}).catchError((error) => throw Exception(error));
-  }
-
-  @override
-  Future<void> updateShoppingList({
+  Future<void> updateList({
     required String id,
     required List<Product> products,
-  }) async {
-    await _shoppingLists.doc(id).update({
-      'products': products.map((p) => p.toJson()).toList()
-    }).catchError((error) => throw Exception(error));
-  }
+  });
 }

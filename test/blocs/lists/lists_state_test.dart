@@ -81,6 +81,7 @@ void main() {
       expect(
         const ListsState().copyWith(lists: [
           const ShoppingList(
+            id: 'shoppingListId',
             title: 'title',
             background: 1,
             products: [
@@ -94,6 +95,7 @@ void main() {
         ]),
         const ListsState(lists: [
           ShoppingList(
+            id: 'shoppingListId',
             title: 'title',
             background: 1,
             products: [

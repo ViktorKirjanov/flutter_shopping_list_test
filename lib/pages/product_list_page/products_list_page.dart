@@ -5,7 +5,7 @@ import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_state.dart';
 import 'package:flutter_shopping_list_test/config/custom_theme.dart';
-import 'package:flutter_shopping_list_test/data/products_repository.dart';
+import 'package:flutter_shopping_list_test/data/firebase_products_repository.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/lists_error.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/loader.dart';
@@ -28,7 +28,7 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   void initState() {
     super.initState();
-    _productsBloc = ProductsBloc(ProductsRepository())
+    _productsBloc = ProductsBloc(FirebaseProductsRepository())
       ..add(const GetProductsEvent());
   }
 
@@ -45,7 +45,7 @@ class _ProductListPageState extends State<ProductListPage> {
             ),
             onPressed: () => context
                 .read<ListsBloc>()
-                .add(ClearProductListEvent(widget.list.id!)),
+                .add(ClearProductListEvent(widget.list.id)),
           ),
         ],
       ),
@@ -94,7 +94,7 @@ class _ProductListPageState extends State<ProductListPage> {
                   onTap: () {
                     BlocProvider.of<ListsBloc>(context)
                         .add(UpdateProductListEvent(
-                      widget.list.id!,
+                      widget.list.id,
                       list.products[index],
                     ));
                   },
@@ -128,7 +128,7 @@ class _ProductListPageState extends State<ProductListPage> {
           return Column(
               children: state.groups.map((productGroup) {
             return ListButton(
-              listId: widget.list.id!,
+              listId: widget.list.id,
               productGroup: productGroup,
             );
           }).toList());

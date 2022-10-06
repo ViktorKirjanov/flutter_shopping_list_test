@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
+import 'package:flutter_shopping_list_test/data/firebase_shopping_repository.dart';
 import 'package:flutter_shopping_list_test/models/product_model.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:formz/formz.dart';
@@ -12,7 +12,7 @@ part 'lists_event.dart';
 part 'lists_state.dart';
 
 class ListsBloc extends Bloc<ListsEvent, ListsState> {
-  final ShoppingRepository _shoppingRepository;
+  final FirebaseShoppingRepository _shoppingRepository;
 
   ListsBloc(this._shoppingRepository) : super(const ListsState()) {
     on<GetListsEvent>(_onGetListsEventListener);
@@ -57,15 +57,14 @@ class ListsBloc extends Bloc<ListsEvent, ListsState> {
     AddToListEvent event,
     Emitter<ListsState> emit,
   ) {
-    _shoppingRepository.addToShoppingList(id: event.id, product: event.product);
+    _shoppingRepository.addToList(id: event.id, product: event.product);
   }
 
   void _onRemoveFromListEvent(
     RemoveFromListEvent event,
     Emitter<ListsState> emit,
   ) {
-    _shoppingRepository.removeFromShoppingList(
-        id: event.id, product: event.product);
+    _shoppingRepository.removeFromList(id: event.id, product: event.product);
   }
 
   Future<void> _onClearProductListEvent(
@@ -95,7 +94,7 @@ class ListsBloc extends Bloc<ListsEvent, ListsState> {
           List<Product> newLists = List.from(list.products);
           newLists[index] =
               newLists[index].copyWith(isSelected: !newLists[index].isSelected);
-          await _shoppingRepository.updateShoppingList(
+          await _shoppingRepository.updateList(
               id: event.listId, products: newLists);
         }
       }

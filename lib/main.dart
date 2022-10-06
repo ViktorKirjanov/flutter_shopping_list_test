@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/config/custom_theme.dart';
 import 'package:flutter_shopping_list_test/blocs/simple_bloc_observer.dart';
-import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
+import 'package:flutter_shopping_list_test/data/firebase_shopping_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +15,7 @@ Future<void> main() async {
   runApp(
     BlocProvider(
       create: (context) =>
-          ListsBloc(ShoppingRepository())..add(const GetListsEvent()),
+          ListsBloc(FirebaseShoppingRepository())..add(const GetListsEvent()),
       child: const MyApp(),
     ),
   );
