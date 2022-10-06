@@ -30,7 +30,7 @@ class ListsPage extends StatelessWidget {
                   ),
                   SafeArea(
                     child: AddButton(
-                      onTap: () => context.go('/newListPage'),
+                      onTap: () => context.push('/newListPage'),
                     ),
                   ),
                 ],

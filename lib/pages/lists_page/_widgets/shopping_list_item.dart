@@ -62,7 +62,7 @@ class ShoppingListItem extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     splashColor: CustomTheme.white.withOpacity(0.2),
-                    onTap: () => context.go('/productListPage', extra: list),
+                    onTap: () => context.push('/productListPage', extra: list),
                   ),
                 ),
               ),

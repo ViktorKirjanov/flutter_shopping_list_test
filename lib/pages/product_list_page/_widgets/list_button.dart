@@ -37,7 +37,7 @@ class ListButton extends StatelessWidget {
             ),
           ],
         ),
-        onPressed: () => context.go(
+        onPressed: () => context.push(
           '/productsPage',
           extra: ProductsPageArguments(listId, productGroup),
         ),
