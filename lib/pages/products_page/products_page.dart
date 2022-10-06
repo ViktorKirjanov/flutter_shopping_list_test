@@ -7,6 +7,8 @@ import 'package:flutter_shopping_list_test/helpers/enum_helper.dart';
 import 'package:flutter_shopping_list_test/helpers/string_helper.dart';
 import 'package:flutter_shopping_list_test/models/product_group_model.dart';
 import 'package:flutter_shopping_list_test/pages/_widgets/product_item/product_item.dart';
+import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductsPageArguments {
   final String listId;
@@ -48,22 +50,31 @@ class ProductsPage extends StatelessWidget {
             ),
             itemCount: productGroup.products.length,
             itemBuilder: (BuildContext ctx, index) {
-              return BlocBuilder<ListsBloc, ListsState>(
+              return BlocConsumer<ListsBloc, ListsState>(
+                listener: (context, state) {
+                  if (state.status == FormzStatus.submissionFailure) {
+                    context.go('/');
+                  }
+                },
                 buildWhen: (previous, current) {
-                  final indexProduct = productGroup.products[index];
-                  final previousList =
-                      previous.lists.firstWhere((list) => list.id == listId);
-                  final currentList =
-                      current.lists.firstWhere((list) => list.id == listId);
+                  if (current.status == FormzStatus.submissionSuccess) {
+                    final indexProduct = productGroup.products[index];
+                    final previousList =
+                        previous.lists.firstWhere((list) => list.id == listId);
+                    final currentList =
+                        current.lists.firstWhere((list) => list.id == listId);
 
-                  final inPreviousList = previousList.products.firstWhereOrNull(
-                          (p) => p.name == indexProduct.name) !=
-                      null;
-                  final inCurrentList = currentList.products.firstWhereOrNull(
-                          (p) => p.name == indexProduct.name) !=
-                      null;
+                    final inPreviousList = previousList.products
+                            .firstWhereOrNull(
+                                (p) => p.name == indexProduct.name) !=
+                        null;
+                    final inCurrentList = currentList.products.firstWhereOrNull(
+                            (p) => p.name == indexProduct.name) !=
+                        null;
 
-                  return inPreviousList != inCurrentList;
+                    return inPreviousList != inCurrentList;
+                  }
+                  return false;
                 },
                 builder: (context, state) {
                   final list =

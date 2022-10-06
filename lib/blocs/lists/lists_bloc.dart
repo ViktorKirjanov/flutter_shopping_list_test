@@ -53,18 +53,33 @@ class ListsBloc extends Bloc<ListsEvent, ListsState> {
     ));
   }
 
-  void _onAddToListEvent(
+  Future<void> _onAddToListEvent(
     AddToListEvent event,
     Emitter<ListsState> emit,
-  ) {
-    _shoppingRepository.addToList(id: event.id, product: event.product);
+  ) async {
+    try {
+      await _shoppingRepository.addToList(id: event.id, product: event.product);
+    } catch (e) {
+      emit(state.copyWith(
+        status: FormzStatus.submissionFailure,
+        error: 'Something went wrong',
+      ));
+    }
   }
 
-  void _onRemoveFromListEvent(
+  Future<void> _onRemoveFromListEvent(
     RemoveFromListEvent event,
     Emitter<ListsState> emit,
-  ) {
-    _shoppingRepository.removeFromList(id: event.id, product: event.product);
+  ) async {
+    try {
+      await _shoppingRepository.removeFromList(
+          id: event.id, product: event.product);
+    } catch (e) {
+      emit(state.copyWith(
+        status: FormzStatus.submissionFailure,
+        error: 'Something went wrong',
+      ));
+    }
   }
 
   Future<void> _onClearProductListEvent(

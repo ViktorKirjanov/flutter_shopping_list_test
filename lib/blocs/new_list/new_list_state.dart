@@ -4,29 +4,29 @@ class NewListState extends Equatable {
   final ShoppingListName name;
   final int background;
   final FormzStatus status;
-  final String? errorMessage;
+  final String? error;
 
   const NewListState({
     this.name = const ShoppingListName.pure(),
     this.background = 0,
     this.status = FormzStatus.pure,
-    this.errorMessage,
+    this.error,
   });
 
   NewListState copyWith({
     ShoppingListName? name,
     int? background,
     FormzStatus? status,
-    String? errorMessage,
+    String? error,
   }) {
     return NewListState(
       name: name ?? this.name,
       background: background ?? this.background,
       status: status ?? this.status,
-      errorMessage: errorMessage,
+      error: error,
     );
   }
 
   @override
-  List<Object?> get props => [status, name, background, errorMessage];
+  List<Object?> get props => [status, name, background, error];
 }

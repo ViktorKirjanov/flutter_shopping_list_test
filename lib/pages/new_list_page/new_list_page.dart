@@ -41,7 +41,7 @@ class _NewListPageState extends State<NewListPage> {
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
                     SnackBar(
-                      content: Text(state.errorMessage ?? 'Oooops'),
+                      content: Text(state.error ?? 'Oooops'),
                       padding: const EdgeInsets.all(24.0),
                     ),
                   );

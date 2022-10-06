@@ -45,11 +45,11 @@ void main() {
         expect(
           const NewListState().copyWith(
             status: FormzStatus.submissionFailure,
-            errorMessage: 'ooops',
+            error: 'ooops',
           ),
           const NewListState(
             status: FormzStatus.submissionFailure,
-            errorMessage: 'ooops',
+            error: 'ooops',
           ),
         );
       });
@@ -88,7 +88,7 @@ void main() {
           name: ShoppingListName.dirty('Home'),
           background: 1,
           status: FormzStatus.submissionSuccess,
-          errorMessage: null,
+          error: null,
         ),
       );
     });

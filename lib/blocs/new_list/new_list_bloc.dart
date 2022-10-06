@@ -32,7 +32,7 @@ class NewListBloc extends Bloc<NewListEvent, NewListState> {
     } catch (e) {
       emit(state.copyWith(
         status: FormzStatus.submissionFailure,
-        errorMessage: 'Something went wrong',
+        error: 'Something went wrong',
       ));
     }
   }
