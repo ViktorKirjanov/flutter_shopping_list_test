@@ -14,9 +14,9 @@ import 'package:flutter_shopping_list_test/pages/product_list_page/_widgets/list
 import 'package:formz/formz.dart';
 
 class ProductListPage extends StatefulWidget {
-  final ShoppingList list;
-
   const ProductListPage({super.key, required this.list});
+
+  final ShoppingList list;
 
   @override
   State<ProductListPage> createState() => _ProductListPageState();
@@ -33,114 +33,110 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.list.title),
-        actions: [
-          CupertinoButton(
-            child: const Icon(
-              CupertinoIcons.delete_simple,
-              color: CustomTheme.darkGray,
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(widget.list.title),
+          actions: [
+            CupertinoButton(
+              child: const Icon(
+                CupertinoIcons.delete_simple,
+                color: CustomTheme.darkGray,
+              ),
+              onPressed: () => context
+                  .read<ListsBloc>()
+                  .add(ClearProductListEvent(widget.list.id)),
             ),
-            onPressed: () => context
-                .read<ListsBloc>()
-                .add(ClearProductListEvent(widget.list.id)),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: CustomTheme.contentPadding,
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildSelectedProducts(),
-              const SizedBox(height: CustomTheme.mainPadding),
-              _buildGroups(),
-            ],
+          ],
+        ),
+        body: SingleChildScrollView(
+          padding: CustomTheme.contentPadding,
+          child: SafeArea(
+            child: Column(
+              children: [
+                _buildSelectedProducts(),
+                const SizedBox(height: CustomTheme.mainPadding),
+                _buildGroups(),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
-  Widget _buildSelectedProducts() {
-    return BlocBuilder<ListsBloc, ListsState>(
-      builder: (context, state) {
-        if (state.status == FormzStatus.submissionInProgress) {
-          return const SizedBox(
-            height: CustomTheme.productItemHeight,
-            child: Center(child: Loader()),
-          );
-        } else if (state.status == FormzStatus.submissionSuccess) {
-          final list =
-              state.lists.firstWhere((list) => list.id == widget.list.id);
-          if (list.products.isNotEmpty) {
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: MediaQuery.of(context).size.width /
-                    CustomTheme.productItemsInRow,
-                mainAxisExtent: CustomTheme.productItemHeight,
-                crossAxisSpacing: CustomTheme.gridSpacing,
-                mainAxisSpacing: CustomTheme.gridSpacing,
-              ),
-              itemCount: list.products.length,
-              itemBuilder: (BuildContext ctx, index) {
-                return ProductItem(
+  Widget _buildSelectedProducts() => BlocBuilder<ListsBloc, ListsState>(
+        builder: (_, state) {
+          if (state.status == FormzStatus.submissionInProgress) {
+            return const SizedBox(
+              height: CustomTheme.productItemHeight,
+              child: Center(child: Loader()),
+            );
+          } else if (state.status == FormzStatus.submissionSuccess) {
+            final list =
+                state.lists.firstWhere((list) => list.id == widget.list.id);
+            if (list.products.isNotEmpty) {
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: MediaQuery.of(context).size.width /
+                      CustomTheme.productItemsInRow,
+                  mainAxisExtent: CustomTheme.productItemHeight,
+                  crossAxisSpacing: CustomTheme.gridSpacing,
+                  mainAxisSpacing: CustomTheme.gridSpacing,
+                ),
+                itemCount: list.products.length,
+                itemBuilder: (BuildContext ctx, index) => ProductItem(
                   product: list.products[index],
                   isSelected: list.products[index].isSelected,
                   onTap: () {
-                    BlocProvider.of<ListsBloc>(context)
-                        .add(UpdateProductListEvent(
-                      widget.list.id,
-                      list.products[index],
-                    ));
+                    BlocProvider.of<ListsBloc>(context).add(
+                      UpdateProductListEvent(
+                        widget.list.id,
+                        list.products[index],
+                      ),
+                    );
                   },
-                );
-              },
-            );
-          } else {
-            return const SizedBox(
+                ),
+              );
+            } else {
+              return const SizedBox(
+                height: CustomTheme.productItemHeight,
+                child: Center(child: Text('Shopping basket is empty')),
+              );
+            }
+          } else if (state.status == FormzStatus.submissionFailure) {
+            return SizedBox(
               height: CustomTheme.productItemHeight,
-              child: Center(child: Text('Shopping basket is empty')),
+              child: ListsError(error: state.error),
             );
           }
-        } else if (state.status == FormzStatus.submissionFailure) {
-          return SizedBox(
-            height: CustomTheme.productItemHeight,
-            child: ListsError(error: state.error),
-          );
-        }
-        return const SizedBox();
-      },
-    );
-  }
+          return const SizedBox();
+        },
+      );
 
-  Widget _buildGroups() {
-    return BlocBuilder<ProductsBloc, ProductsState>(
-      bloc: _productsBloc,
-      builder: (context, state) {
-        if (state.status == ProductsStatus.loading) {
-          return const Center(child: Loader());
-        } else if (state.status == ProductsStatus.success) {
-          return Column(
-              children: state.groups.map((productGroup) {
-            return ListButton(
-              listId: widget.list.id,
-              productGroup: productGroup,
+  Widget _buildGroups() => BlocBuilder<ProductsBloc, ProductsState>(
+        bloc: _productsBloc,
+        builder: (_, state) {
+          if (state.status == ProductsStatus.loading) {
+            return const Center(child: Loader());
+          } else if (state.status == ProductsStatus.success) {
+            return Column(
+              children: state.groups
+                  .map(
+                    (productGroup) => ListButton(
+                      listId: widget.list.id,
+                      productGroup: productGroup,
+                    ),
+                  )
+                  .toList(),
             );
-          }).toList());
-        } else {
-          return Center(
-            child: Text(
-              state.error ?? 'Oops!',
-              style: Theme.of(context).textTheme.caption,
-            ),
-          );
-        }
-      },
-    );
-  }
+          } else {
+            return Center(
+              child: Text(
+                state.error ?? 'Oops!',
+                style: Theme.of(context).textTheme.caption,
+              ),
+            );
+          }
+        },
+      );
 }

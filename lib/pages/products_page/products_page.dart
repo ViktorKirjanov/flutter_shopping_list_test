@@ -11,46 +11,44 @@ import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductsPageArguments {
+  ProductsPageArguments(this.listId, this.productGroup);
+
   final String listId;
   final ProductGroup productGroup;
-
-  ProductsPageArguments(this.listId, this.productGroup);
 }
 
 class ProductsPage extends StatelessWidget {
-  final String listId;
-  final ProductGroup productGroup;
-
   const ProductsPage({
     super.key,
     required this.listId,
     required this.productGroup,
   });
+  final String listId;
+  final ProductGroup productGroup;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          EnumHelper.enumToString(productGroup.group).toCapitalized(),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            EnumHelper.enumToString(productGroup.group).toCapitalized(),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: CustomTheme.contentPadding,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: MediaQuery.of(context).size.width /
-                  CustomTheme.productItemsInRow,
-              mainAxisExtent: CustomTheme.productItemHeight,
-              crossAxisSpacing: CustomTheme.gridSpacing,
-              mainAxisSpacing: CustomTheme.gridSpacing,
-            ),
-            itemCount: productGroup.products.length,
-            itemBuilder: (BuildContext ctx, index) {
-              return BlocConsumer<ListsBloc, ListsState>(
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: CustomTheme.contentPadding,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: MediaQuery.of(context).size.width /
+                    CustomTheme.productItemsInRow,
+                mainAxisExtent: CustomTheme.productItemHeight,
+                crossAxisSpacing: CustomTheme.gridSpacing,
+                mainAxisSpacing: CustomTheme.gridSpacing,
+              ),
+              itemCount: productGroup.products.length,
+              itemBuilder: (BuildContext ctx, index) =>
+                  BlocConsumer<ListsBloc, ListsState>(
                 listener: (context, state) {
                   if (state.status == FormzStatus.submissionFailure) {
                     context.go('/');
@@ -64,12 +62,14 @@ class ProductsPage extends StatelessWidget {
                     final currentList =
                         current.lists.firstWhere((list) => list.id == listId);
 
-                    final inPreviousList = previousList.products
-                            .firstWhereOrNull(
-                                (p) => p.name == indexProduct.name) !=
-                        null;
+                    final inPreviousList =
+                        previousList.products.firstWhereOrNull(
+                              (p) => p.name == indexProduct.name,
+                            ) !=
+                            null;
                     final inCurrentList = currentList.products.firstWhereOrNull(
-                            (p) => p.name == indexProduct.name) !=
+                          (p) => p.name == indexProduct.name,
+                        ) !=
                         null;
 
                     return inPreviousList != inCurrentList;
@@ -90,24 +90,26 @@ class ProductsPage extends StatelessWidget {
                     isCompleted: product != null ? product.isSelected : false,
                     onTap: () {
                       if (product == null) {
-                        context.read<ListsBloc>().add(AddToListEvent(
-                              listId,
-                              productGroup.products[index],
-                            ));
+                        context.read<ListsBloc>().add(
+                              AddToListEvent(
+                                listId,
+                                productGroup.products[index],
+                              ),
+                            );
                       } else {
-                        context.read<ListsBloc>().add(RemoveFromListEvent(
-                              listId,
-                              productGroup.products[index],
-                            ));
+                        context.read<ListsBloc>().add(
+                              RemoveFromListEvent(
+                                listId,
+                                productGroup.products[index],
+                              ),
+                            );
                       }
                     },
                   );
                 },
-              );
-            },
+              ),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

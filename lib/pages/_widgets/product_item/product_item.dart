@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../config/custom_theme.dart';
-import '../../../models/product_model.dart';
-import 'is_completed.dart';
+import 'package:flutter_shopping_list_test/config/custom_theme.dart';
+import 'package:flutter_shopping_list_test/models/product_model.dart';
+import 'package:flutter_shopping_list_test/pages/_widgets/product_item/is_completed.dart';
 
 class ProductItem extends StatelessWidget {
-  final Product product;
-  final bool isSelected;
-  final bool isCompleted;
-  final Function onTap;
-
   const ProductItem({
     super.key,
     required this.product,
@@ -18,43 +13,46 @@ class ProductItem extends StatelessWidget {
     required this.onTap,
   });
 
+  final Product product;
+  final bool isSelected;
+  final bool isCompleted;
+  final void Function()? onTap;
+
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: isSelected ? CustomTheme.green : CustomTheme.red,
-      borderRadius: CustomTheme.smallRadius,
-      child: InkWell(
+  Widget build(BuildContext context) => Material(
+        color: isSelected ? CustomTheme.green : CustomTheme.red,
         borderRadius: CustomTheme.smallRadius,
-        splashColor: CustomTheme.white.withOpacity(0.4),
-        child: Stack(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 60,
-                    child: Image.asset(
-                      'assets/products/${product.image}.png',
-                      color: CustomTheme.white,
-                      fit: BoxFit.contain,
+        child: InkWell(
+          borderRadius: CustomTheme.smallRadius,
+          splashColor: CustomTheme.white.withOpacity(0.4),
+          onTap: onTap,
+          child: Stack(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 60,
+                      child: Image.asset(
+                        'assets/products/${product.image}.png',
+                        color: CustomTheme.white,
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    product.name,
-                    style: CustomTheme.text,
-                  ),
-                ],
+                    const SizedBox(height: 4.0),
+                    Text(
+                      product.name,
+                      style: CustomTheme.text,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (isCompleted) const IsCompleted(),
-          ],
+              if (isCompleted) const IsCompleted(),
+            ],
+          ),
         ),
-        onTap: () => onTap(),
-      ),
-    );
-  }
+      );
 }

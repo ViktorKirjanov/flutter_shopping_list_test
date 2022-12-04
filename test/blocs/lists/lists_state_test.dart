@@ -1,7 +1,7 @@
+import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:flutter_shopping_list_test/models/product_model.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_shopping_list_test/blocs/lists/lists_bloc.dart';
 import 'package:formz/formz.dart';
 
 void main() {
@@ -79,34 +79,38 @@ void main() {
 
     test('returns object with updated lists when email is lists', () {
       expect(
-        const ListsState().copyWith(lists: [
-          const ShoppingList(
-            id: 'shoppingListId',
-            title: 'title',
-            background: 1,
-            products: [
-              Product(
-                name: 'Bananas',
-                image: 'bananas',
-                isSelected: true,
-              )
-            ],
-          )
-        ]),
-        const ListsState(lists: [
-          ShoppingList(
-            id: 'shoppingListId',
-            title: 'title',
-            background: 1,
-            products: [
-              Product(
-                name: 'Bananas',
-                image: 'bananas',
-                isSelected: true,
-              )
-            ],
-          )
-        ]),
+        const ListsState().copyWith(
+          lists: [
+            const ShoppingList(
+              id: 'shoppingListId',
+              title: 'title',
+              background: 1,
+              products: [
+                Product(
+                  name: 'Bananas',
+                  image: 'bananas',
+                  isSelected: true,
+                )
+              ],
+            )
+          ],
+        ),
+        const ListsState(
+          lists: [
+            ShoppingList(
+              id: 'shoppingListId',
+              title: 'title',
+              background: 1,
+              products: [
+                Product(
+                  name: 'Bananas',
+                  image: 'bananas',
+                  isSelected: true,
+                )
+              ],
+            )
+          ],
+        ),
       );
     });
   });

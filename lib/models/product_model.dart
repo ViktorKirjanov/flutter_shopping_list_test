@@ -2,52 +2,47 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Product extends Equatable {
-  final String name;
-  final String image;
-  final bool isSelected;
-
   const Product({
     required this.name,
     required this.image,
     required this.isSelected,
   });
 
+  factory Product.fromJson(Map<String, dynamic> data) => Product(
+        name: data['name'] as String,
+        image: data['image'] as String,
+        isSelected: data['isSelected'] as bool? ?? false,
+      );
+
   factory Product.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    return Product(
-      name: snapshot.data()!['name'],
-      image: snapshot.data()!['image'],
-      isSelected: snapshot.data()!['isSelected'],
-    );
-  }
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+  ) =>
+      Product(
+        name: snapshot.data()!['name'] as String,
+        image: snapshot.data()!['image'] as String,
+        isSelected: snapshot.data()!['isSelected'] as bool,
+      );
 
-  factory Product.fromJson(Map<String, dynamic> data) {
-    return Product(
-      name: data['name'],
-      image: data['image'],
-      isSelected: data['isSelected'] ?? false,
-    );
-  }
+  final String name;
+  final String image;
+  final bool isSelected;
 
-  Map<String, Object> toJson() {
-    return {
-      'name': name,
-      'image': image,
-      'isSelected': isSelected,
-    };
-  }
+  Map<String, Object> toJson() => {
+        'name': name,
+        'image': image,
+        'isSelected': isSelected,
+      };
 
   Product copyWith({
     String? name,
     String? image,
     bool? isSelected,
-  }) {
-    return Product(
-      name: name ?? this.name,
-      image: image ?? this.image,
-      isSelected: isSelected ?? this.isSelected,
-    );
-  }
+  }) =>
+      Product(
+        name: name ?? this.name,
+        image: image ?? this.image,
+        isSelected: isSelected ?? this.isSelected,
+      );
 
   @override
   List<Object?> get props => [

@@ -24,7 +24,7 @@ void main() {
       final FakeFirebaseFirestore fakeFirebaseFirestore =
           FakeFirebaseFirestore();
 
-      Map<String, dynamic> data = {
+      final Map<String, dynamic> data = {
         'name': 'Bananas',
         'image': 'bananas',
         'isSelected': true,

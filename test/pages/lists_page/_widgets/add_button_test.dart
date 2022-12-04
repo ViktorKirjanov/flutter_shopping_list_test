@@ -23,7 +23,7 @@ void main() {
         expect(find.byType(TextButton), findsOneWidget);
         expect(find.text('Add new list'), findsOneWidget);
         expect(find.byIcon(Icons.add_rounded), findsOneWidget);
-        expectLater(
+        await expectLater(
           () => tester.tap(find.byKey(const Key('button'))),
           prints('on tap\n'),
         );

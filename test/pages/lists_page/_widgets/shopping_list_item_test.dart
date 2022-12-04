@@ -15,30 +15,33 @@ void main() {
           const MaterialApp(
             home: Scaffold(
               body: ShoppingListItem(
-                  list: ShoppingList(
-                id: 'shoppingListId',
-                title: 'Party',
-                background: 0,
-                products: [
-                  Product(
-                    name: 'Bananas',
-                    image: 'bananas',
-                    isSelected: false,
-                  ),
-                  Product(
-                    name: 'Apples',
-                    image: 'apples',
-                    isSelected: true,
-                  ),
-                ],
-              )),
+                list: ShoppingList(
+                  id: 'shoppingListId',
+                  title: 'Party',
+                  background: 0,
+                  products: [
+                    Product(
+                      name: 'Bananas',
+                      image: 'bananas',
+                      isSelected: false,
+                    ),
+                    Product(
+                      name: 'Apples',
+                      image: 'apples',
+                      isSelected: true,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         );
 
         expect(find.byType(ShoppingListItem), findsOneWidget);
-        expect(find.image(const AssetImage('assets/images/group_0.jpg')),
-            findsOneWidget);
+        expect(
+          find.image(const AssetImage('assets/images/group_0.jpg')),
+          findsOneWidget,
+        );
         expect(find.text('Party'), findsOneWidget);
         expect(find.text('Items: 2'), findsOneWidget);
         expect(find.byType(GridTile), findsOneWidget);

@@ -12,18 +12,18 @@ class CreateNewList extends NewListEvent {
 }
 
 class ChangeImage extends NewListEvent {
-  final int index;
-
   const ChangeImage(this.index);
+
+  final int index;
 
   @override
   List<Object> get props => [index];
 }
 
 class ChangeName extends NewListEvent {
-  final String name;
-
   const ChangeName(this.name);
+
+  final String name;
 
   @override
   List<Object> get props => [name];

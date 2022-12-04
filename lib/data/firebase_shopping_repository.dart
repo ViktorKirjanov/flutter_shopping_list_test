@@ -1,29 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_shopping_list_test/data/shopping_repository.dart';
 import 'package:flutter_shopping_list_test/models/product_model.dart';
-
-import '../models/shopping_list_model.dart';
-import 'shopping_repository.dart';
+import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 
 class FirebaseShoppingRepository implements ShoppingRepository {
   final _shoppingLists = FirebaseFirestore.instance.collection('lists');
 
   @override
-  Future<List<ShoppingList>> getLists() async {
-    return await _shoppingLists
-        .get()
-        .then((snapshot) =>
-            snapshot.docs.map((doc) => ShoppingList.fromSnapshot(doc)).toList())
-        .catchError((error) => throw Exception(error));
-  }
+  Future<List<ShoppingList>> getLists() async => _shoppingLists
+      .get()
+      .then(
+        (snapshot) => snapshot.docs.map(ShoppingList.fromSnapshot).toList(),
+      )
+      .catchError((Object error) => throw Exception(error));
 
   @override
-  Stream<List<ShoppingList>> getShoppingListsStream() {
-    return _shoppingLists.snapshots().map((snapshot) {
-      final items =
-          snapshot.docs.map((doc) => ShoppingList.fromSnapshot(doc)).toList();
-      return items;
-    });
-  }
+  Stream<List<ShoppingList>> getShoppingListsStream() =>
+      _shoppingLists.snapshots().map((snapshot) {
+        final items = snapshot.docs.map(ShoppingList.fromSnapshot).toList();
+        return items;
+      });
 
   @override
   Future<void> createList({
@@ -33,7 +29,7 @@ class FirebaseShoppingRepository implements ShoppingRepository {
     await _shoppingLists.add({
       'title': title,
       'background': background,
-      'products': [],
+      'products': <Product>[],
     });
   }
 
@@ -43,8 +39,8 @@ class FirebaseShoppingRepository implements ShoppingRepository {
     required Product product,
   }) async {
     await _shoppingLists.doc(id).update({
-      "products": FieldValue.arrayUnion([product.toJson()])
-    }).catchError((error) => throw Exception(error));
+      'products': FieldValue.arrayUnion([product.toJson()])
+    }).catchError((Object error) => throw Exception(error));
   }
 
   @override
@@ -54,14 +50,14 @@ class FirebaseShoppingRepository implements ShoppingRepository {
   }) async {
     await _shoppingLists.doc(id).update({
       'products': FieldValue.arrayRemove([product.toJson()])
-    }).catchError((error) => throw Exception(error));
+    }).catchError((Object error) => throw Exception(error));
   }
 
   @override
   Future<void> clearShoppingList({required String id}) async {
-    await _shoppingLists
-        .doc(id)
-        .update({'products': []}).catchError((error) => throw Exception(error));
+    await _shoppingLists.doc(id).update({'products': []}).catchError(
+      (Object error) => throw Exception(error),
+    );
   }
 
   @override
@@ -71,6 +67,6 @@ class FirebaseShoppingRepository implements ShoppingRepository {
   }) async {
     await _shoppingLists.doc(id).update({
       'products': products.map((p) => p.toJson()).toList()
-    }).catchError((error) => throw Exception(error));
+    }).catchError((Object error) => throw Exception(error));
   }
 }

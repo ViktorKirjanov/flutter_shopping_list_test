@@ -19,18 +19,15 @@ final routes = GoRouter(
         ),
         GoRoute(
           path: 'productListPage',
-          builder: (context, state) {
-            return ProductListPage(list: state.extra as ShoppingList);
-          },
+          builder: (context, state) =>
+              ProductListPage(list: state.extra as ShoppingList),
         ),
         GoRoute(
           path: 'productsPage',
-          builder: (context, state) {
-            return ProductsPage(
-              listId: (state.extra as ProductsPageArguments).listId,
-              productGroup: (state.extra as ProductsPageArguments).productGroup,
-            );
-          },
+          builder: (context, state) => ProductsPage(
+            listId: (state.extra as ProductsPageArguments).listId,
+            productGroup: (state.extra as ProductsPageArguments).productGroup,
+          ),
         ),
       ],
     ),

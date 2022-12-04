@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:flutter_shopping_list_test/models/product_model.dart';
 import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -26,10 +27,10 @@ void main() {
       final FakeFirebaseFirestore fakeFirebaseFirestore =
           FakeFirebaseFirestore();
 
-      Map<String, dynamic> data = {
+      final Map<String, dynamic> data = {
         'title': 'title',
         'background': 1,
-        'products': []
+        'products': <Product>[],
       };
 
       await fakeFirebaseFirestore
@@ -65,7 +66,7 @@ void main() {
         {
           'title': 'title',
           'background': 1,
-          'products': [],
+          'products': <Product>[],
         },
       );
     });
