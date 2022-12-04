@@ -17,9 +17,7 @@ void main() {
       shoppingRepository = MockShoppingRepository();
     });
 
-    NewListBloc buildBloc() {
-      return NewListBloc(shoppingRepository);
-    }
+    NewListBloc buildBloc() => NewListBloc(shoppingRepository);
 
     group('constructor', () {
       test('works properly', () {
@@ -39,13 +37,14 @@ void main() {
         'emits NewListState',
         build: buildBloc,
         act: (bloc) async {
-          bloc.add(const ChangeImage(1));
-          bloc.add(const ChangeImage(2));
-          bloc.add(const ChangeName('Home'));
-          bloc.add(const ChangeImage(3));
-          bloc.add(const ChangeName(''));
-          bloc.add(const ChangeName('12345678901'));
-          bloc.add(const ChangeName('Home'));
+          bloc
+            ..add(const ChangeImage(1))
+            ..add(const ChangeImage(2))
+            ..add(const ChangeName('Home'))
+            ..add(const ChangeImage(3))
+            ..add(const ChangeName(''))
+            ..add(const ChangeName('12345678901'))
+            ..add(const ChangeName('Home'));
         },
         expect: () => [
           const NewListState(background: 1),
@@ -93,7 +92,7 @@ void main() {
         build: buildBloc,
         act: (bloc) async {
           bloc.add(const CreateNewList());
-          await Future.delayed(const Duration(seconds: 1));
+          await Future<void>.delayed(const Duration(seconds: 1));
         },
         seed: () => const NewListState(
           name: ShoppingListName.dirty('Home'),
@@ -127,7 +126,7 @@ void main() {
         build: buildBloc,
         act: (bloc) async {
           bloc.add(const CreateNewList());
-          await Future.delayed(const Duration(milliseconds: 1100));
+          await Future<void>.delayed(const Duration(milliseconds: 1100));
         },
         seed: () => const NewListState(
           name: ShoppingListName.dirty('Home'),

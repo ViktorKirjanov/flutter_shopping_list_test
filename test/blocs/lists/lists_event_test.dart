@@ -38,20 +38,22 @@ void main() {
               ],
             )
           ]),
-          equals(const UpdatedListsEvent([
-            ShoppingList(
-              id: 'shoppingListId',
-              title: 'title',
-              background: 1,
-              products: [
-                Product(
-                  name: 'Bananas',
-                  image: 'bananas',
-                  isSelected: true,
-                )
-              ],
-            )
-          ])),
+          equals(
+            const UpdatedListsEvent([
+              ShoppingList(
+                id: 'shoppingListId',
+                title: 'title',
+                background: 1,
+                products: [
+                  Product(
+                    name: 'Bananas',
+                    image: 'bananas',
+                    isSelected: true,
+                  )
+                ],
+              )
+            ]),
+          ),
         );
       });
 
@@ -95,7 +97,7 @@ void main() {
       test('supports value equality', () {
         expect(
           const AddToListEvent(
-            "listId",
+            'listId',
             Product(
               name: 'Bananas',
               image: 'bananas',
@@ -104,7 +106,7 @@ void main() {
           ),
           equals(
             const AddToListEvent(
-              "listId",
+              'listId',
               Product(
                 name: 'Bananas',
                 image: 'bananas',
@@ -118,7 +120,7 @@ void main() {
       test('props are correct', () {
         expect(
           const AddToListEvent(
-            "listId",
+            'listId',
             Product(
               name: 'Bananas',
               image: 'bananas',
@@ -126,7 +128,7 @@ void main() {
             ),
           ).props,
           equals(<Object?>[
-            "listId",
+            'listId',
             const Product(
               name: 'Bananas',
               image: 'bananas',
@@ -141,7 +143,7 @@ void main() {
       test('supports value equality', () {
         expect(
           const RemoveFromListEvent(
-            "listId",
+            'listId',
             Product(
               name: 'Bananas',
               image: 'bananas',
@@ -150,7 +152,7 @@ void main() {
           ),
           equals(
             const RemoveFromListEvent(
-              "listId",
+              'listId',
               Product(
                 name: 'Bananas',
                 image: 'bananas',
@@ -164,7 +166,7 @@ void main() {
       test('props are correct', () {
         expect(
           const RemoveFromListEvent(
-            "listId",
+            'listId',
             Product(
               name: 'Bananas',
               image: 'bananas',
@@ -172,7 +174,7 @@ void main() {
             ),
           ).props,
           equals(<Object?>[
-            "listId",
+            'listId',
             const Product(
               name: 'Bananas',
               image: 'bananas',
@@ -186,17 +188,17 @@ void main() {
     group('ClearProductListEvent', () {
       test('supports value equality', () {
         expect(
-          const ClearProductListEvent("listId"),
-          equals(const ClearProductListEvent("listId")),
+          const ClearProductListEvent('listId'),
+          equals(const ClearProductListEvent('listId')),
         );
       });
 
       test('props are correct', () {
         expect(
           const ClearProductListEvent(
-            "listId",
+            'listId',
           ).props,
-          equals(<Object?>["listId"]),
+          equals(<Object?>['listId']),
         );
       });
     });
@@ -205,7 +207,7 @@ void main() {
       test('supports value equality', () {
         expect(
           const UpdateProductListEvent(
-            "listId",
+            'listId',
             Product(
               name: 'Bananas',
               image: 'bananas',
@@ -214,7 +216,7 @@ void main() {
           ),
           equals(
             const UpdateProductListEvent(
-              "listId",
+              'listId',
               Product(
                 name: 'Bananas',
                 image: 'bananas',
@@ -228,7 +230,7 @@ void main() {
       test('props are correct', () {
         expect(
           const UpdateProductListEvent(
-            "listId",
+            'listId',
             Product(
               name: 'Bananas',
               image: 'bananas',
@@ -236,7 +238,7 @@ void main() {
             ),
           ).props,
           equals(<Object?>[
-            "listId",
+            'listId',
             const Product(
               name: 'Bananas',
               image: 'bananas',

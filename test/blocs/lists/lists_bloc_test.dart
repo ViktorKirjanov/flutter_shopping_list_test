@@ -14,13 +14,13 @@ void main() {
   group('ListsBloc', () {
     late FirebaseShoppingRepository shoppingRepository;
 
-    var product = const Product(
+    const product = Product(
       name: 'Bananas',
       image: 'bananas',
       isSelected: true,
     );
 
-    var shoppingList = ShoppingList(
+    const shoppingList = ShoppingList(
       id: 'shoppingListId',
       title: 'title',
       background: 1,
@@ -31,9 +31,7 @@ void main() {
       shoppingRepository = MockShoppingRepository();
     });
 
-    ListsBloc buildBloc() {
-      return ListsBloc(shoppingRepository);
-    }
+    ListsBloc buildBloc() => ListsBloc(shoppingRepository);
 
     group('constructor', () {
       test('works properly', () {
@@ -61,10 +59,10 @@ void main() {
       'on UpdatedListsEvent',
       build: buildBloc,
       act: (bloc) async => bloc.add(
-        UpdatedListsEvent([shoppingList]),
+        const UpdatedListsEvent([shoppingList]),
       ),
       expect: () => [
-        ListsState(
+        const ListsState(
           lists: [shoppingList],
           status: FormzStatus.submissionSuccess,
           error: null,
@@ -72,7 +70,7 @@ void main() {
       ],
     );
 
-    group('on ClearProductListEvent', (() {
+    group('on ClearProductListEvent', () {
       blocTest<ListsBloc, ListsState>(
         'success',
         setUp: () {
@@ -83,9 +81,9 @@ void main() {
         build: buildBloc,
         act: (bloc) async {
           bloc.add(const ClearProductListEvent('listId'));
-          await Future.delayed(const Duration(seconds: 1));
+          await Future<void>.delayed(const Duration(seconds: 1));
         },
-        expect: () => [],
+        expect: () => <Product>[],
       );
 
       blocTest<ListsBloc, ListsState>(
@@ -95,7 +93,7 @@ void main() {
             () => shoppingRepository.clearShoppingList(id: 'listId'),
           ).thenThrow(Exception());
         },
-        seed: () => ListsState(
+        seed: () => const ListsState(
           status: FormzStatus.submissionSuccess,
           lists: [shoppingList],
         ),
@@ -104,16 +102,16 @@ void main() {
           bloc.add(const ClearProductListEvent('listId'));
         },
         expect: () => [
-          ListsState(
+          const ListsState(
             status: FormzStatus.submissionFailure,
             lists: [shoppingList],
             error: 'Something went wrong',
           )
         ],
       );
-    }));
+    });
 
-    group('on ClearProductListEvent', (() {
+    group('on UpdateProductListEvent', () {
       blocTest<ListsBloc, ListsState>(
         'success',
         setUp: () {
@@ -126,12 +124,14 @@ void main() {
         },
         build: buildBloc,
         act: (bloc) async {
-          bloc.add(UpdateProductListEvent(
-            'listId',
-            product,
-          ));
+          bloc.add(
+            const UpdateProductListEvent(
+              'listId',
+              product,
+            ),
+          );
         },
-        expect: () => [],
+        expect: () => <Product>[],
       );
 
       blocTest<ListsBloc, ListsState>(
@@ -139,27 +139,32 @@ void main() {
         setUp: () {
           when(
             () => shoppingRepository.updateList(
-              id: 'listId',
-              products: [product],
+              id: 'shoppingListId',
+              products: [product.copyWith(isSelected: false)],
             ),
           ).thenThrow(Exception());
         },
-        seed: () => ListsState(
+        seed: () => const ListsState(
           status: FormzStatus.submissionSuccess,
           lists: [shoppingList],
         ),
         build: buildBloc,
         act: (bloc) async {
-          bloc.add(const ClearProductListEvent('listId'));
+          bloc.add(
+            const UpdateProductListEvent(
+              'shoppingListId',
+              product,
+            ),
+          );
         },
         expect: () => [
-          ListsState(
+          const ListsState(
             status: FormzStatus.submissionFailure,
             lists: [shoppingList],
             error: 'Something went wrong',
           )
         ],
       );
-    }));
+    });
   });
 }

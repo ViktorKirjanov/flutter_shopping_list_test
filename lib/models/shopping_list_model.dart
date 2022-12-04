@@ -3,11 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_shopping_list_test/models/product_model.dart';
 
 class ShoppingList extends Equatable {
-  final String id;
-  final String title;
-  final int background;
-  final List<Product> products;
-
   const ShoppingList({
     required this.id,
     required this.title,
@@ -16,24 +11,29 @@ class ShoppingList extends Equatable {
   });
 
   factory ShoppingList.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    return ShoppingList(
-      id: snapshot.id,
-      title: snapshot.data()!['title'],
-      background: snapshot.data()!['background'],
-      products: snapshot.data()!['products'].map<Product>((item) {
-        return Product.fromJson(item);
-      }).toList(),
-    );
-  }
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+  ) =>
+      ShoppingList(
+        id: snapshot.id,
+        title: snapshot.data()!['title'] as String,
+        background: snapshot.data()!['background'] as int,
+        products: (snapshot.data()!['products'] as List<dynamic>)
+            .map<Product>(
+              (item) => Product.fromJson(item as Map<String, dynamic>),
+            )
+            .toList(),
+      );
 
-  Map<String, Object> toJson() {
-    return {
-      'title': title,
-      'background': background,
-      'products': [],
-    };
-  }
+  final String id;
+  final String title;
+  final int background;
+  final List<Product> products;
+
+  Map<String, Object> toJson() => {
+        'title': title,
+        'background': background,
+        'products': <Product>[],
+      };
 
   @override
   List<Object?> get props => [title, background, products];

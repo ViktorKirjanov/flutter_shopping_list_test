@@ -1,6 +1,6 @@
 import 'package:flutter_shopping_list_test/models/product_model.dart';
 
-import '../models/shopping_list_model.dart';
+import 'package:flutter_shopping_list_test/models/shopping_list_model.dart';
 
 abstract class ShoppingRepository {
   Future<List<ShoppingList>> getLists();

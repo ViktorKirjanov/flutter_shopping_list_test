@@ -1,17 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shopping_list_test/blocs/products/products_state.dart';
-
-import '../../data/firebase_products_repository.dart';
+import 'package:flutter_shopping_list_test/data/firebase_products_repository.dart';
 
 part 'products_event.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final FirebaseProductsRepository _productsRepository;
-
   ProductsBloc(this._productsRepository) : super(const ProductsState()) {
     on<GetProductsEvent>(_onGetProductsEvent);
   }
+
+  final FirebaseProductsRepository _productsRepository;
 
   Future<void> _onGetProductsEvent(
     GetProductsEvent event,
@@ -25,15 +24,19 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         element.products.sort((a, b) => a.name.compareTo(b.name));
       }
 
-      emit(state.copyWith(
-        status: ProductsStatus.success,
-        groups: groups,
-      ));
-    } catch (_) {
-      emit(state.copyWith(
-        status: ProductsStatus.failure,
-        error: 'Something went wrong',
-      ));
+      emit(
+        state.copyWith(
+          status: ProductsStatus.success,
+          groups: groups,
+        ),
+      );
+    } on Exception catch (_) {
+      emit(
+        state.copyWith(
+          status: ProductsStatus.failure,
+          error: 'Something went wrong',
+        ),
+      );
     }
   }
 }

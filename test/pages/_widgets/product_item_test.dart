@@ -27,12 +27,15 @@ void main() {
           ),
         );
 
-        expect(find.image(const AssetImage('assets/products/bananas.png')),
-            findsOneWidget);
+        expect(
+          find.image(const AssetImage('assets/products/bananas.png')),
+          findsOneWidget,
+        );
         expect(find.text('Bananas'), findsOneWidget);
         expect(
-            (tester.firstWidget(find.byType(Material).at(1)) as Material).color,
-            CustomTheme.green);
+          (tester.firstWidget(find.byType(Material).at(1)) as Material).color,
+          CustomTheme.green,
+        );
         expect(find.byType(IsCompleted), findsOneWidget);
       },
     );
@@ -57,12 +60,15 @@ void main() {
           ),
         );
 
-        expect(find.image(const AssetImage('assets/products/bananas.png')),
-            findsOneWidget);
+        expect(
+          find.image(const AssetImage('assets/products/bananas.png')),
+          findsOneWidget,
+        );
         expect(find.text('Bananas'), findsOneWidget);
         expect(
-            (tester.firstWidget(find.byType(Material).at(1)) as Material).color,
-            CustomTheme.red);
+          (tester.firstWidget(find.byType(Material).at(1)) as Material).color,
+          CustomTheme.red,
+        );
         expect(find.byType(IsCompleted), findsNothing);
       },
     );

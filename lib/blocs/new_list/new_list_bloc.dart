@@ -8,20 +8,19 @@ part 'new_list_event.dart';
 part 'new_list_state.dart';
 
 class NewListBloc extends Bloc<NewListEvent, NewListState> {
-  final FirebaseShoppingRepository _shoppingRepository;
-
   NewListBloc(this._shoppingRepository) : super(const NewListState()) {
     on<CreateNewList>(_onCreateNewList);
     on<ChangeImage>(_onChangeImage);
     on<ChangeName>(_onChangeName);
   }
+  final FirebaseShoppingRepository _shoppingRepository;
 
   Future<void> _onCreateNewList(
     CreateNewList event,
     Emitter<NewListState> emit,
   ) async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
-    await Future.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
 
     try {
       await _shoppingRepository.createList(
@@ -29,11 +28,13 @@ class NewListBloc extends Bloc<NewListEvent, NewListState> {
         background: state.background,
       );
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    } catch (e) {
-      emit(state.copyWith(
-        status: FormzStatus.submissionFailure,
-        error: 'Something went wrong',
-      ));
+    } on Exception catch (_) {
+      emit(
+        state.copyWith(
+          status: FormzStatus.submissionFailure,
+          error: 'Something went wrong',
+        ),
+      );
     }
   }
 
@@ -41,10 +42,12 @@ class NewListBloc extends Bloc<NewListEvent, NewListState> {
     ChangeImage event,
     Emitter<NewListState> emit,
   ) async {
-    emit(state.copyWith(
-      background: event.index,
-      status: Formz.validate([state.name]),
-    ));
+    emit(
+      state.copyWith(
+        background: event.index,
+        status: Formz.validate([state.name]),
+      ),
+    );
   }
 
   Future<void> _onChangeName(
@@ -52,7 +55,6 @@ class NewListBloc extends Bloc<NewListEvent, NewListState> {
     Emitter<NewListState> emit,
   ) async {
     final name = ShoppingListName.dirty(event.name);
-
     emit(
       state.copyWith(
         name: name,

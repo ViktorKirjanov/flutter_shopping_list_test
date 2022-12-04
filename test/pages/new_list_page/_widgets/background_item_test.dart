@@ -22,8 +22,10 @@ void main() {
         );
 
         expect(find.byType(BackgroundItem), findsOneWidget);
-        expect(find.image(const AssetImage('assets/images/group_0.jpg')),
-            findsOneWidget);
+        expect(
+          find.image(const AssetImage('assets/images/group_0.jpg')),
+          findsOneWidget,
+        );
         expect(find.byIcon(Icons.check_circle_outline_rounded), findsOneWidget);
       },
     );
@@ -45,10 +47,12 @@ void main() {
         );
 
         expect(find.byType(BackgroundItem), findsOneWidget);
-        expect(find.image(const AssetImage('assets/images/group_1.jpg')),
-            findsOneWidget);
+        expect(
+          find.image(const AssetImage('assets/images/group_1.jpg')),
+          findsOneWidget,
+        );
         expect(find.byIcon(Icons.check_circle_outline_rounded), findsNothing);
-        expectLater(
+        await expectLater(
           () => tester.tap(find.byKey(const Key('backgroundItem'))),
           prints('on tap\n'),
         );
